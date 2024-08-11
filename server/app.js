@@ -8,6 +8,7 @@ const cors = require("cors");
 var indexRouter = require("./routes/index");
 var indexRouter = require("./routes/auth");
 var usersRouter = require("./routes/userRoutes");
+const { authMiddleware } = require("./middlewares/authMiddleware");
 
 var app = express();
 
@@ -20,11 +21,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-
 app.use("/", indexRouter);
-app.use("/user", usersRouter);
-
-// catch 404 and forward to error handler
+app.use("/user", usersRouter); // catch 404 and forward to error handler
+// app.use("/user", authMiddleware, usersRouter); // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
 });

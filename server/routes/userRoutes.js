@@ -1,24 +1,35 @@
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const authMiddleware = require("../middlewares/authMiddleware");
-const userModel = require("../models/user");
+const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
+const router = express.Router();
 
-// Get all users
+// GET all users
 router.get("/", async (req, res) => {
-  const { take, skip } = req.query;
   try {
-    const users = await userModel.getAllUsers(take, skip);
+    const users = await prisma.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+      },
+    });
     res.send(users);
   } catch (error) {
     res.status(500).send({ error: error.message });
   }
 });
 
-// Get user By ID
+// GET user by ID
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    const user = await userModel.getUserById(id); // Corrected variable name to 'user'
+    const user = await prisma.user.findUnique({
+      where: { id: parseInt(id) },
+    });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -28,25 +39,74 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// Create a new user
+// POST a new user
 router.post("/", async (req, res) => {
+  const {
+    name,
+    email,
+    password,
+    role,
+    address,
+    contact_number,
+    date_of_birth,
+  } = req.body;
   try {
-    const newUser = await userModel.createUser(req.body);
-    res.send({
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = await prisma.user.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+        role,
+        address,
+        contact_number,
+        date_of_birth,
+      },
+    });
+    const token = jwt.sign(
+      { user_id: newUser.id, email },
+      process.env.TOKEN_KEY,
+      { expiresIn: "2h" }
+    );
+    res.status(201).json({
       status: true,
-      message: "User Created Successfully",
       user: newUser,
+      token,
     });
   } catch (error) {
     res.status(500).send({ error: error.message });
   }
 });
 
-// Update a user
-router.patch("/", async (req, res) => {
+// PATCH (update) a user - Authenticated route
+router.patch("/", authMiddleware, async (req, res) => {
+  const {
+    id,
+    name,
+    email,
+    password,
+    role,
+    address,
+    contact_number,
+    date_of_birth,
+  } = req.body;
   try {
-    const updatedUser = await userModel.updateUser(req.body.id, req.body);
-    res.send({
+    const updatedData = {
+      name,
+      email,
+      role,
+      address,
+      contact_number,
+      date_of_birth,
+    };
+    if (password) {
+      updatedData.password = await bcrypt.hash(password, 10);
+    }
+    const updatedUser = await prisma.user.update({
+      where: { id: parseInt(id) },
+      data: updatedData,
+    });
+    res.status(200).json({
       status: true,
       message: "User Updated Successfully",
       user: updatedUser,
@@ -56,14 +116,17 @@ router.patch("/", async (req, res) => {
   }
 });
 
-// Delete a user
-router.delete("/:id", authMiddleware, async (req, res) => {
+// DELETE a user
+router.delete("/:id", async (req, res) => {
+  const id = req.params.id;
   try {
-    const deletedUser = await userModel.deleteUser(req.params.id);
-    res.send({
+    const deleteUser = await prisma.user.delete({
+      where: { id: parseInt(id) },
+    });
+    res.status(200).json({
       status: true,
       message: "User Deleted Successfully",
-      user: deletedUser,
+      user: deleteUser,
     });
   } catch (error) {
     res.status(500).send({ status: false, error: error.message });
