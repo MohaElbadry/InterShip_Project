@@ -8,7 +8,12 @@ const cors = require("cors");
 var indexRouter = require("./routes/index");
 var indexRouter = require("./routes/auth");
 var usersRouter = require("./routes/userRoutes");
-const { authMiddleware } = require("./middlewares/authMiddleware");
+var accidentRoutes = require("./routes/accidentRoutes");
+var accidentVehicleRoutes = require("./routes/accidentVehicleRoutes");
+var claimRoutes = require("./routes/claimRoutes");
+var insurancePolicyRoutes = require("./routes/insurancePolicyRoutes");
+var vehicleRoutes = require("./routes/vehicleRoutes");
+const authMiddleware = require("./middlewares/authMiddleware");
 
 var app = express();
 
@@ -21,9 +26,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+// ========> Routing <=============//
+// app.use("/user", authMiddleware, usersRouter); For auth all the router
+// Public Routes
 app.use("/", indexRouter);
-app.use("/user", usersRouter); // catch 404 and forward to error handler
-// app.use("/user", authMiddleware, usersRouter); // catch 404 and forward to error handler
+// Public and Private routes
+app.use("/insurance", insurancePolicyRoutes);
+// Private Routes Need auth
+app.use("/user", usersRouter);
+app.use("/accident", authMiddleware, accidentRoutes);
+app.use("/accident-vehicle", authMiddleware, accidentVehicleRoutes);
+app.use("/vehicle", authMiddleware, vehicleRoutes);
+app.use("/claim", authMiddleware, claimRoutes);
+// ========> End Routing <=============//
 app.use(function (req, res, next) {
   next(createError(404));
 });

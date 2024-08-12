@@ -119,17 +119,26 @@ router.patch("/", authMiddleware, async (req, res) => {
 // DELETE a user
 router.delete("/:id", async (req, res) => {
   const id = req.params.id;
+  const user = await prisma.user.findUnique({
+    where: { id: parseInt(id) },
+  });
+  if (!user) {
+    return res.status(404).json({ message: "User not Exist" });
+  }
   try {
-    const deleteUser = await prisma.user.delete({
+    await prisma.user.delete({
       where: { id: parseInt(id) },
     });
-    res.status(200).json({
-      status: true,
-      message: "User Deleted Successfully",
-      user: deleteUser,
-    });
+    res.status(204).send();
   } catch (error) {
-    res.status(500).send({ status: false, error: error.message });
+    if (error.code === "P2003") {
+      // Prisma error code for foreign key constraint failure
+      res.status(400).send({
+        message: "Cannot delete user as it is referenced in another table.",
+      });
+    } else {
+      res.status(500).send({ error: error.message });
+    }
   }
 });
 
