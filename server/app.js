@@ -26,9 +26,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+
+// Enable CORS for all routes
+app.use(cors());
+
 // ========> Routing <=============//
-// app.use("/user", authMiddleware, usersRouter); For auth all the router
-// Public Routes
+// ********Public Routes************
 app.use("/", indexRouter);
 // Public and Private routes
 app.use("/insurance", insurancePolicyRoutes);
