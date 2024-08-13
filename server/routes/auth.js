@@ -8,15 +8,22 @@ const prisma = new PrismaClient();
 // Signup Route
 router.post("/signup", async (req, res) => {
   try {
-    const { nom, email, password } = req.body;
-
+    const {
+      name,
+      email,
+      password,
+      role,
+      address,
+      contact_number,
+      date_of_birth,
+    } = req.body;
     // Validate user input
-    if (!(nom && email && password)) {
+    if (!(name && email && password)) {
       return res.status(400).json({ message: "All input is required" });
     }
 
     // Check if user already exists
-    const existingUser = await prisma.Utilisateur.findUnique({
+    const existingUser = await prisma.user.findUnique({
       where: { email },
     });
 
@@ -25,12 +32,15 @@ router.post("/signup", async (req, res) => {
     }
 
     // Create new user with hashed password
-    const newUser = await prisma.Utilisateur.create({
+    const newUser = await prisma.user.create({
       data: {
-        nom,
+        name,
         email,
         password: await bcrypt.hash(password, 10),
         role: "USER", // Default role
+        address,
+        contact_number,
+        date_of_birth,
       },
     });
 

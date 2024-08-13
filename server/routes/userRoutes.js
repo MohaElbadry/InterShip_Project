@@ -65,21 +65,23 @@ router.post("/", async (req, res) => {
     });
     const token = jwt.sign(
       { user_id: newUser.id, email },
-      process.env.TOKEN_KEY,
+      process.env.JWT_SECRET,
       { expiresIn: "2h" }
     );
+
     res.status(201).json({
       status: true,
       user: newUser,
       token,
     });
   } catch (error) {
+    // console.log(error);
     res.status(500).send({ error: error.message });
   }
 });
 
 // PATCH (update) a user - Authenticated route
-router.patch("/", authMiddleware, async (req, res) => {
+router.patch("/",authMiddleware, async (req, res) => {
   const {
     id,
     name,
