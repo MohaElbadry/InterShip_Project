@@ -1,6 +1,10 @@
 import * as React from "react";
 import logo from "../../assets/allianz-logo.svg";
+import Logout from "../../pages/auth/Logout";
+import { useAuth } from "../../context/AuthContext";
+
 export default function Login() {
+  const { auth } = useAuth(); // Get the auth data from context
   return (
     <>
       <nav className=" w-full border-gray-200 bg-[#005C9E]">
@@ -9,42 +13,39 @@ export default function Login() {
             href=""
             className="flex items-center justify-center  space-x-3 rtl:space-x-reverse"
           >
-            <img src={logo} class="h-8 " alt="Flowbite Logo" />
+            <img src={logo} className="h-8 " alt="Flowbite Logo" />
           </a>
 
           <div className="w-fit sm:inline hidden  " id="navbar-default">
-            <ul class="font-medium flex flex-row w-fit  md:p-0 mt-4   rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse     ">
+            <ul className="font-medium flex flex-row w-fit  md:p-0 mt-4   rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse     ">
               <li>
                 <a
                   href="#"
-                  class="block py-2 px-3   rounded md:bg-transparent md:p-0 text-white "
+                  className="block py-2 px-3   rounded md:bg-transparent md:p-0 text-white "
                   aria-current="page"
                 >
                   Home
                 </a>
               </li>
+              {auth?.user ? (
+                <li>
+                  <Logout /> {/* Show logout button if user is authenticated */}
+                </li>
+              ) : (
+                <li>
+                  <a
+                    href="/login"
+                    className="block py-2 px-3 rounded md:bg-transparent md:p-0 text-gray-300"
+                  >
+                    Login
+                  </a>
+                </li>
+              )}
+
               <li>
                 <a
                   href="#"
-                  class="block py-2 px-3   rounded md:bg-transparent md:p-0 text-gray-300 "
-                  aria-current="page"
-                >
-                  Home
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="block py-2 px-3   rounded md:bg-transparent md:p-0 text-gray-300 "
-                  aria-current="page"
-                >
-                  Home
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="block py-2 px-3   rounded md:bg-transparent md:p-0 text-gray-300 "
+                  className="block py-2 px-3   rounded md:bg-transparent md:p-0 text-gray-300 "
                   aria-current="page"
                 >
                   Home

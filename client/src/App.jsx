@@ -8,29 +8,33 @@ import AdminUsers from "./pages/admin/AdminUsers";
 import UserDashboard from "./pages/users/UserDashboard";
 import RequireAuth from "./pages/auth/RequireAuth";
 import NotFound from "./pages/NotFound";
+import { AuthProvider } from "./context/AuthContext";
 
 const App = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<LogIn />} />
-        <Route path="/signup" element={<SignUp />} />
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/login" element={<LogIn />} />
+          <Route path="/signup" element={<SignUp />} />
 
-        {/* Private Routes */}
-        <Route element={<RequireAuth role="admin" />}>
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/admin/users" element={<AdminUsers />} />
-        </Route>
+          {/* Private Routes */}
+          <Route element={<RequireAuth role="admin" />}>
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/users" element={<AdminUsers />} />
+          </Route>
 
-        <Route element={<RequireAuth role="user" />}>
-          <Route path="/user" element={<UserDashboard />} />
-        </Route>
+          <Route element={<RequireAuth role="user" />}>
+            <Route path="/user" element={<UserDashboard />} />
+          </Route>
 
-        {/* 404 Not Found */}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </Router>
+          {/* 404 Not Found */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Router>{" "}
+    </AuthProvider>
   );
 };
 

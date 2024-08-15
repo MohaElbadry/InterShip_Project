@@ -1,19 +1,36 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import { useEffect, useState } from "react";
+import LoadingSpinner from "../../components/common/LoadingSpinner";
 
 function RequireAuth({ role }) {
-  // Hardcoded user and role for testing
-  const currentUser = { name: "Test User" }; // Change this to null to simulate no user
-  const userRole = "admin"; // Change this to "user" to simulate a different role
+  const { auth } = useAuth();
   const location = useLocation();
-  // console.log("Current User:", currentUser);
-  // console.log("User Role:", userRole);
-  // console.log("Required Role:", role);
+  const [loading, setLoading] = useState(true);
 
-  if (currentUser && userRole === role) {
-    return <Outlet />;
-  } else {
-    return <Navigate state={{ form: location }} replace to="/login" />;
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const user = localStorage.getItem("user");
+
+    if (token && user) {
+      // Simulate a delay of 2 seconds before hiding the loader
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+    } else {
+      setLoading(false);
+    }
+  }, [auth]);
+
+  if (loading) {
+    return <LoadingSpinner />; // Show spinner while loading
   }
+
+  if (!auth || (role && auth.user.role !== role)) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  return <Outlet />;
 }
 
 export default RequireAuth;
