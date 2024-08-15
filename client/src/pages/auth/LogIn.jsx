@@ -4,7 +4,7 @@ import logo from "../../assets/allianz-logo-2.svg";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import {  useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 
 export default function LogIn() {
   const navigate = useNavigate();
