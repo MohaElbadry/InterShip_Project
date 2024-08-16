@@ -50,8 +50,23 @@ router.post("/", async (req, res) => {
     contact_number,
     date_of_birth,
   } = req.body;
+
   try {
+    // Check if the email already exists
+    const existingUser = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (existingUser) {
+      return res
+        .status(400)
+        .json({ error: "Email already in use Try to use an other one" });
+    }
+
+    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create the new user
     const newUser = await prisma.user.create({
       data: {
         name,
@@ -63,25 +78,28 @@ router.post("/", async (req, res) => {
         date_of_birth,
       },
     });
+
+    // Generate a token
     const token = jwt.sign(
       { user_id: newUser.id, email },
       process.env.JWT_SECRET,
       { expiresIn: "2h" }
     );
 
+    // Respond with the created user and token
     res.status(201).json({
       status: true,
       user: newUser,
       token,
     });
   } catch (error) {
-    // console.log(error);
-    res.status(500).send({ error: error.message });
+    console.error(error);
+    res.status(500).json({ error: "An error occurred during user creation" });
   }
 });
 
 // PATCH (update) a user - Authenticated route
-router.patch("/",authMiddleware, async (req, res) => {
+router.patch("/", authMiddleware, async (req, res) => {
   const {
     id,
     name,

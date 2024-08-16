@@ -7,7 +7,7 @@ export default function Login() {
   const { auth } = useAuth(); // Get the auth data from context
   return (
     <>
-      <nav className=" w-full border-gray-200 bg-[#005C9E]">
+      <nav className=" w-full border-gray-200 bg-[#003781]">
         <div className="max-w-screen-xl flex  items-center justify-between mx-auto p-4">
           <a
             href=""
@@ -20,7 +20,7 @@ export default function Login() {
             <ul className="font-medium flex flex-row w-fit  md:p-0 mt-4   rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse     ">
               <li>
                 <a
-                  href="#"
+                  href="/"
                   className="block py-2 px-3   rounded md:bg-transparent md:p-0 text-white "
                   aria-current="page"
                 >
@@ -41,16 +41,18 @@ export default function Login() {
                   </a>
                 </li>
               )}
-
-              <li>
-                <a
-                  href="#"
-                  className="block py-2 px-3   rounded md:bg-transparent md:p-0 text-gray-300 "
-                  aria-current="page"
-                >
-                  Home
-                </a>
-              </li>
+              {auth?.user ? (
+                <></>
+              ) : (
+                <li>
+                  <a
+                    href="/signup"
+                    className="block py-2 px-3 rounded md:bg-transparent md:p-0 text-gray-300"
+                  >
+                    SignUp
+                  </a>
+                </li>
+              )}
             </ul>
           </div>
         </div>

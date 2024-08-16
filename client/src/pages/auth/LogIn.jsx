@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import Footer from "../../components/layout/Footer";
 
 export default function LogIn() {
   const navigate = useNavigate();
@@ -54,7 +55,7 @@ export default function LogIn() {
   return (
     <>
       <Header />
-      <div className="overflow-hidden flex justify-center items-center bg-white">
+      <div className="overflow-hidden flex justify-center items-center bg-white mb-10">
         <div className="p-10  border-[2px] pb-0 mt-0 sm:mt-4 border-slate-200 rounded-md flex flex-col items-center space-y-3">
           <div className="py-8  flex justify-center">
             <img className="-mt-6  sm:w-1/4 w-1/2" src={logo} />
@@ -119,45 +120,8 @@ export default function LogIn() {
             </p>
           </div>
         </div>
-
-        <div className="absolute bottom-0 w-full p-3 bg-[#f7fbff] flex justify-center items-center space-x-3 text-[14px] font-medium text-[#666]">
-          <a
-            href="https://www.paypal.com/us/smarthelp/contact-us"
-            target="_blank"
-            className="hover:underline underline-offset-1 cursor-pointer"
-          >
-            Contact Us
-          </a>
-          <a
-            href="https://www.paypal.com/de/webapps/mpp/ua/privacy-full"
-            target="_blank"
-            className="hover:underline underline-offset-1 cursor-pointer"
-          >
-            Privacy
-          </a>
-          <a
-            href="https://www.paypal.com/de/webapps/mpp/ua/legalhub-full"
-            target="_blank"
-            className="hover:underline underline-offset-1 cursor-pointer"
-          >
-            Legal
-          </a>
-          <a
-            href="https://www.paypal.com/de/webapps/mpp/ua/upcoming-policies-full"
-            target="_blank"
-            className="hover:underline underline-offset-1 cursor-pointer"
-          >
-            Policy{" "}
-          </a>
-          <a
-            href="https://www.paypal.com/de/webapps/mpp/country-worldwide"
-            target="_blank"
-            className="hover:underline underline-offset-1 cursor-pointer"
-          >
-            Worldwide{" "}
-          </a>
-        </div>
       </div>
+      <Footer/>
     </>
   );
 }
