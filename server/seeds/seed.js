@@ -68,6 +68,7 @@ async function seed() {
               year: faker.date.past().getFullYear(),
               license_plate: faker.vehicle.vrm(),
               vin_number: faker.vehicle.vin(),
+              picture_url: null,
               user: {
                 connect: { id: user.id },
               },

@@ -1,5 +1,5 @@
 -- CreateTable
-CREATE TABLE `client` (
+CREATE TABLE `user` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
     `address` VARCHAR(191) NOT NULL,
@@ -7,15 +7,16 @@ CREATE TABLE `client` (
     `email` VARCHAR(191) NOT NULL,
     `date_of_birth` DATETIME(3) NOT NULL,
     `role` VARCHAR(191) NOT NULL,
+    `password` VARCHAR(191) NOT NULL,
 
-    UNIQUE INDEX `client_email_key`(`email`),
+    UNIQUE INDEX `user_email_key`(`email`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `insurance_policy` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `client_id` INTEGER NOT NULL,
+    `user_id` INTEGER NOT NULL,
     `vehicle_id` INTEGER NOT NULL,
     `policy_number` VARCHAR(191) NOT NULL,
     `type` VARCHAR(191) NOT NULL,
@@ -31,11 +32,12 @@ CREATE TABLE `insurance_policy` (
 -- CreateTable
 CREATE TABLE `vehicle` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `client_id` INTEGER NOT NULL,
+    `user_id` INTEGER NOT NULL,
     `make` VARCHAR(191) NOT NULL,
     `model` VARCHAR(191) NOT NULL,
     `year` INTEGER NOT NULL,
     `license_plate` VARCHAR(191) NOT NULL,
+    `picture_url` VARCHAR(191) NULL,
     `vin_number` VARCHAR(191) NOT NULL,
 
     UNIQUE INDEX `vehicle_vin_number_key`(`vin_number`),
@@ -55,7 +57,7 @@ CREATE TABLE `accident` (
 -- CreateTable
 CREATE TABLE `claim` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `client_id` INTEGER NOT NULL,
+    `user_id` INTEGER NOT NULL,
     `accident_id` INTEGER NOT NULL,
     `claim_number` VARCHAR(191) NOT NULL,
     `date_submitted` DATETIME(3) NOT NULL,
@@ -86,16 +88,16 @@ CREATE TABLE `_AccidentVehicle` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `insurance_policy` ADD CONSTRAINT `insurance_policy_client_id_fkey` FOREIGN KEY (`client_id`) REFERENCES `client`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `insurance_policy` ADD CONSTRAINT `insurance_policy_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `insurance_policy` ADD CONSTRAINT `insurance_policy_vehicle_id_fkey` FOREIGN KEY (`vehicle_id`) REFERENCES `vehicle`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `vehicle` ADD CONSTRAINT `vehicle_client_id_fkey` FOREIGN KEY (`client_id`) REFERENCES `client`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `vehicle` ADD CONSTRAINT `vehicle_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `claim` ADD CONSTRAINT `claim_client_id_fkey` FOREIGN KEY (`client_id`) REFERENCES `client`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `claim` ADD CONSTRAINT `claim_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `claim` ADD CONSTRAINT `claim_accident_id_fkey` FOREIGN KEY (`accident_id`) REFERENCES `accident`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

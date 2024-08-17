@@ -197,9 +197,12 @@ export default function SignUp() {
             <div className="flex items-center justify-center border-t-[1px] border-t-slate-300 w-full relative">
               <div className="font-bod bg-white mt-1 px-5 absolute">Or</div>
             </div>
-            <button className="w-3/4 sm:w-1/2 border-blue-900 hover:border-[#003087] hover:border-[2px] border-[1px] rounded-3xl p-3 text-[#0070ba] font-bold transition duration-200">
+            <a
+              href="/login"
+              className="btn w-3/4 sm:w-1/2  text-center border-blue-900 hover:border-[#003087] hover:border-[2px] border-[1px] rounded-3xl p-3 text-[#0070ba] font-bold transition duration-200"
+            >
               Log In
-            </button>
+            </a>
           </div>
 
           <div className="flex space-x-1 p-20 text-sm">

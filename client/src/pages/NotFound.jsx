@@ -4,8 +4,8 @@ import React from "react";
 const NotFound = () => {
   return (
     <>
-      <section className="relative z-10 bg-primary py-[120px]">
-        <div className="container mx-auto">
+      <section className="h-full w-full relative z-10 bg-[#1d1a1d] min-h-screen">
+        <div className="container mx-auto ">
           <div className="-mx-4 flex">
             <div className="w-full px-4">
               <div className="mx-auto max-w-[400px] text-center">
@@ -24,7 +24,6 @@ const NotFound = () => {
                 >
                   Go To Home
                 </a>
-                
               </div>
             </div>
           </div>

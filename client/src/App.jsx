@@ -6,6 +6,9 @@ import SignUp from "./pages/auth/SignUp";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminUsers from "./pages/admin/AdminUsers";
 import UserDashboard from "./pages/users/UserDashboard";
+import Vehicles from "./pages/users/Vehicles";
+import Vehicles_add from "./pages/users/Vehicles_add";
+import Vehicle_liste from "./pages/users/Vehicle_liste";
 import RequireAuth from "./pages/auth/RequireAuth";
 import NotFound from "./pages/NotFound";
 import { AuthProvider } from "./context/AuthContext";
@@ -15,6 +18,8 @@ const App = () => {
     <AuthProvider>
       <Router>
         <Routes>
+          <Route path="/user/vehicles" element={<Vehicles_add />} />
+          <Route path="/user/vehicles-list" element={<Vehicle_liste />} />
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/login" element={<LogIn />} />
@@ -28,6 +33,7 @@ const App = () => {
 
           <Route element={<RequireAuth role="user" />}>
             <Route path="/user" element={<UserDashboard />} />
+            <Route path="/user/vehicles" element={<Vehicles />} />
           </Route>
 
           {/* 404 Not Found */}

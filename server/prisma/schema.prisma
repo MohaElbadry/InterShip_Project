@@ -46,6 +46,7 @@ model Vehicle {
   model             String
   year              Int
   license_plate     String
+  picture_url       String?           // New field for picture URL
   vin_number        String            @unique
   user              User              @relation(fields: [user_id], references: [id]) // Updated
   insurancePolicies InsurancePolicy[]

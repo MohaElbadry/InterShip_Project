@@ -1,4 +1,5 @@
 import React from "react";
+import pic from "../../assets/ir-irapp2.webp";
 
 const Hero = () => {
   return (
@@ -49,11 +50,11 @@ const Hero = () => {
               <div className="lg:ml-auto lg:text-right">
                 <div className="relative z-10 inline-block pt-11 lg:pt-0">
                   <img
-                    src="https://cdn.tailgrids.com/1.0/assets/images/hero/hero-image-01.png"
+                    src={pic}
                     alt="hero"
-                    className="max-w-full lg:ml-auto"
+                    className="max-w-full scale-125 lg:ml-auto"
                   />
-                  <span className="absolute -bottom-8 -left-8 z-[-1]">
+                  <span className="absolute -bottom-16 -left-14  z-[-1]">
                     <svg
                       width="93"
                       height="93"
