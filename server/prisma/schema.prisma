@@ -23,6 +23,21 @@ model User {
   @@map("user")
 }
 
+model ArchivedUser {
+  id                Int               @id @default(autoincrement())
+  name              String
+  address           String
+  contact_number    String
+  email             String
+  date_of_birth     DateTime
+  role              String
+  password          String
+  archived_at       DateTime          @default(now()) // Timestamp of when the user was archived
+
+  @@map("archived_user")
+}
+
+
 model InsurancePolicy {
   id            Int      @id @default(autoincrement())
   user_id       Int      // Updated to refer to user
@@ -38,6 +53,22 @@ model InsurancePolicy {
 
   @@map("insurance_policy")
 }
+
+model ArchivedInsurancePolicy {
+  id            Int      @id @default(autoincrement())
+  user_id       Int
+  vehicle_id    Int
+  policy_number String   @unique
+  type          String
+  start_date    DateTime
+  end_date      DateTime
+  amount        Float
+  status        String
+  archived_at   DateTime @default(now()) // Timestamp of when the policy was archived
+
+  @@map("archived_insurance_policy")
+}
+
 
 model Vehicle {
   id                Int               @id @default(autoincrement())
@@ -56,6 +87,21 @@ model Vehicle {
   @@map("vehicle")
 }
 
+
+model ArchivedVehicle {
+  id                Int               @id @default(autoincrement())
+  user_id           Int
+  make              String
+  model             String
+  year              Int
+  license_plate     String
+  picture_url       String?           // New field for picture URL
+  vin_number        String            @unique
+  deleted_at        DateTime          @default(now()) // Timestamp of when the vehicle was archived
+  
+  @@map("archived_vehicle")
+}
+
 model Accident {
   id              Int               @id @default(autoincrement())
   date            DateTime
@@ -67,6 +113,17 @@ model Accident {
 
   @@map("accident")
 }
+
+model ArchivedAccident {
+  id              Int               @id @default(autoincrement())
+  date            DateTime
+  location        String
+  description     String
+  archived_at     DateTime          @default(now()) // Timestamp of when the accident was archived
+
+  @@map("archived_accident")
+}
+
 
 model Claim {
   id             Int      @id @default(autoincrement())
@@ -82,6 +139,21 @@ model Claim {
 
   @@map("claim")
 }
+
+model ArchivedClaim {
+  id             Int      @id @default(autoincrement())
+  user_id        Int
+  accident_id    Int
+  claim_number   String   @unique
+  date_submitted DateTime
+  status         String
+  description    String
+  amount_claimed Float
+  archived_at    DateTime @default(now()) // Timestamp of when the claim was archived
+
+  @@map("archived_claim")
+}
+
 
 model AccidentVehicle {
   id          Int         @id @default(autoincrement())

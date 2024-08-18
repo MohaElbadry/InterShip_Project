@@ -119,24 +119,33 @@ router.patch("/", upload.single("picture"), async (req, res) => {
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   try {
+    // Find the vehicle to be deleted
     const vehicle = await prisma.vehicle.findUnique({
       where: { id: parseInt(id) },
     });
 
     if (!vehicle) {
-      return res.status(404).json({ message: "Vehicle not Exist" });
+      return res.status(404).json({ message: "Vehicle does not exist" });
     }
 
-    if (vehicle.picture_url) {
-      const filePath = path.join(__dirname, "..", vehicle.picture_url);
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath); // Delete the file
-      }
-    }
+    // Archive the vehicle
+    await prisma.archivedVehicle.create({
+      data: {
+        user_id: vehicle.user_id,
+        make: vehicle.make,
+        model: vehicle.model,
+        year: vehicle.year,
+        license_plate: vehicle.license_plate,
+        picture_url: vehicle.picture_url,
+        vin_number: vehicle.vin_number,
+      },
+    });
 
+    // Delete the vehicle from the Vehicle table
     await prisma.vehicle.delete({
       where: { id: parseInt(id) },
     });
+
     res.status(204).send(); // No Content
   } catch (error) {
     if (error.code === "P2003") {

@@ -2,7 +2,6 @@ import React from "react";
 import Menu from "../../components/common/user/Menu";
 import StatisticsCard from "./StatisticsCard";
 import Sidebar from "../../components/common/user/Sidebar";
-
 export default function UserDashboard() {
   return (
     <div className="min-h-screen flex flex-col flex-auto flex-shrink-0 antialiased bg-white text-black">
@@ -108,7 +107,6 @@ export default function UserDashboard() {
         </div>
       </div>
       {/* <!-- Statistics Cards --> */}
-      
     </div>
   );
 }
