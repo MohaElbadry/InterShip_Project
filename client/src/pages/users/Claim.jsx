@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import Menu from "../../components/common/user/Menu";
 import Sidebar from "../../components/common/user/Sidebar";
-import VehiclesTable from "../../components/common/user/vehicle/VehiclesTable";
+import ClaimTable from "../../components/common/user/claim/ClaimTable";
 import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
-import VehicleAddModal from "../../components/common/user/vehicle/VehicleAddModal";
+import VehicleAddModal from "../../components/common/user/claim/ClaimAddModal";
 import icon from "../../assets/plus_round_icon.svg";
 
-export default function Vehicles() {
+export default function Claim() {
   const { auth } = useAuth(); // Get the auth data from context
-  const [vehicles, setVehicles] = useState([]);
+  const [Claim, setClaim] = useState([]);
   const [loading, setLoading] = useState(true); // Loading state
   const [message, setMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -18,30 +18,30 @@ export default function Vehicles() {
   const closeModal = () => setIsModalOpen(false);
 
   useEffect(() => {
-     const fetchVehicles = async () => {
+     const fetchClaim = async () => {
        try {
-         // Fetch all vehicles for the user in reverse order
+         // Fetch all Claim for the user in reverse order
          const response = await axios.get(
            `${process.env.REACT_APP_API_LINK}/user/vehicle/${auth.user.id}`
          );
          if (response.data.length > 0) {
-           setVehicles(response.data); // Store all vehicles
+           setClaim(response.data); // Store all Claim
            setLatestVehicle(response.data[0]); // Set the first vehicle as the latest
          } else {
-           setMessage("No vehicles found for this user.");
+           setMessage("No Claim found for this user.");
          }
        } catch (error) {
          if (error.response && error.response.status === 404) {
-           setMessage("No vehicles found for this user.");
+           setMessage("No Claim found for this user.");
          } else {
-           setMessage("An error occurred while fetching vehicles.");
+           setMessage("An error occurred while fetching Claim.");
          }
        } finally {
          setLoading(false); // Stop loading
        }
      };
 
-    fetchVehicles();
+    fetchClaim();
   }, []);
 
   if (loading) return <p>Loading...</p>; // Display loading message while fetching
@@ -64,8 +64,8 @@ export default function Vehicles() {
           {/* The modal component */}
           <VehicleAddModal isOpen={isModalOpen} onClose={closeModal} />
         </div>{" "}
-        {vehicles && vehicles.length > 0 ? (
-          <VehiclesTable vehicles={vehicles} />
+        {Claim && Claim.length > 0 ? (
+          <ClaimTable Claim={Claim} />
         ) : (
           message && (
             <div className="flex justify-center items-center h-full">

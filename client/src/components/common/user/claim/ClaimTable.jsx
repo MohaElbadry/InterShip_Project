@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import VehicleRow from "./VehicleRow"; // Import VehicleRow component
+import VehicleRow from "./ClaimRow"; // Import VehicleRow component
 
 export default function VehiclesTable({ vehicles }) {
   const [isModalOpen, setIsModalOpen] = useState(false);

@@ -163,12 +163,17 @@ router.delete("/:id", async (req, res) => {
 });
 
 //=========>New Routes<==========//
+
+
 // GET all vehicles by user_id
 router.get("/vehicle/:user_id", async (req, res) => {
   const { user_id } = req.params;
   try {
     const vehicles = await prisma.vehicle.findMany({
       where: { user_id: parseInt(user_id, 10) },
+      orderBy: {
+        id: "desc", // Assuming you have a created_at field
+      },
     });
     if (vehicles.length === 0) {
       return res.status(404).send({
