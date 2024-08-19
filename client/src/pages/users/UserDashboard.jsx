@@ -28,7 +28,6 @@ export default function UserDashboard() {
 
     fetchVehicles();
   }, []);
-
   if (loading) return <p>Loading...</p>; // Display loading message while fetching
 
   return (
@@ -136,7 +135,7 @@ export default function UserDashboard() {
       </div>
       {/* <!-- Statistics Cards --> */}
       <div className=" ml-14 mb-10 md:ml-64  overflow-hidden">
-        {latestVehicles && (
+        {latestVehicles != null && (
           <div className="flex m items-center justify-center">
             <div className="relative flex flex-col w-full max-w-[48rem] sm:flex-row rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg">
               <div className="relative m-0 w-full mx-5 sm:m-0 sm:w-2/5 shrink-0 overflow-hidden rounded-xl rounded-r-none bg-white bg-clip-border text-gray-700">

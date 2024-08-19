@@ -30,6 +30,36 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+// GET all accidents related to a specific user's vehicles
+router.get("/user/:user_id", async (req, res) => {
+  const { user_id } = req.params;
+
+  try {
+    // Step 1: Retrieve all accidents related to the user's vehicles
+    const accidents = await prisma.accident.findMany({
+      where: {
+        AccidentVehicle: {
+          some: {
+            vehicle: {
+              user_id: parseInt(user_id, 10),
+            },
+          },
+        },
+      },
+    });
+
+    if (accidents.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No accidents found for this user." });
+    }
+
+    res.status(200).json(accidents);
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+});
+
 // POST a new accident
 router.post("/", async (req, res) => {
   const { date, location, description } = req.body;

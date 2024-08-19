@@ -32,6 +32,21 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+// GET all vehicles for a specific user
+router.get("/user/:user_id", async (req, res) => {
+  const { user_id } = req.params;
+  try {
+    const vehicles = await prisma.vehicle.findMany({
+      where: {
+        user_id: parseInt(user_id, 10),
+      },
+    });
+    res.status(200).json(vehicles);
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+});
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const uploadPath = "uploads/";

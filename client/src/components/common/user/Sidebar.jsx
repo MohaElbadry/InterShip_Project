@@ -65,7 +65,7 @@ const Sidebar = () => (
         </li>
         <li>
           <a
-            href="/user/vehicles"
+            href="/user/claim"
             className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 pr-6"
           >
             <span className="inline-flex justify-center items-center ml-4">
@@ -85,7 +85,7 @@ const Sidebar = () => (
               </svg>
             </span>
             <span className="ml-2 text-sm tracking-wide truncate">
-              Vehicles
+              Claim
             </span>
             <span className="hidden md:block px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-blue-500 bg-indigo-50 rounded-full">
               New
@@ -94,7 +94,7 @@ const Sidebar = () => (
         </li>
         <li>
           <a
-            href="#"
+            href="/user/accident"
             className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 pr-6"
           >
             <span className="inline-flex justify-center items-center ml-4">
@@ -114,7 +114,7 @@ const Sidebar = () => (
               </svg>
             </span>
             <span className="ml-2 text-sm tracking-wide truncate">
-              Messages
+              Accidents
             </span>
           </a>
         </li>
