@@ -35,8 +35,8 @@ app.use(cors());
 // ********Public Routes************
 app.use("/", indexRouter);
 // Public and Private routes
+app.use("/user", usersRouter);
 // Private Routes Need auth
-app.use("/user", authMiddleware, usersRouter);
 app.use("/insurance", authMiddleware, insurancePolicyRoutes);
 app.use("/accident", authMiddleware, accidentRoutes);
 app.use("/accident-vehicle", authMiddleware, accidentVehicleRoutes);
