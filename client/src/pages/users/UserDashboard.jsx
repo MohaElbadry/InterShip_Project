@@ -14,7 +14,12 @@ export default function UserDashboard() {
       try {
         // Fetch all vehicles for the user in reverse order
         const response = await axios.get(
-          `${process.env.REACT_APP_API_LINK}/user/vehicle/${auth.user.id}`
+          `${process.env.REACT_APP_API_LINK}/vehicles/user/${auth.user.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${auth.token}`,
+            },
+          }
         );
         if (response.data.length > 0) {
           setLatestVehicles(response.data[0]); // Set the first vehicle as the latest
@@ -135,7 +140,7 @@ export default function UserDashboard() {
       </div>
       {/* <!-- Statistics Cards --> */}
       <div className=" ml-14 mb-10 md:ml-64  overflow-hidden">
-        {latestVehicles != null && (
+        {Object.keys(latestVehicles).length > 0 ? (
           <div className="flex m items-center justify-center">
             <div className="relative flex flex-col w-full max-w-[48rem] sm:flex-row rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg">
               <div className="relative m-0 w-full mx-5 sm:m-0 sm:w-2/5 shrink-0 overflow-hidden rounded-xl rounded-r-none bg-white bg-clip-border text-gray-700">
@@ -162,32 +167,32 @@ export default function UserDashboard() {
                 <p className="mb-8 block font-sans text-base font-normal leading-relaxed text-gray-700 antialiased">
                   Year : {latestVehicles.year || "Description of the vehicle."}
                 </p>
-                <a className="inline-block" href="#">
-                  <a
-                    className="flex select-none items-center gap-2 rounded-lg py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-gray-500 transition-all hover:bg-pink-500/10 active:bg-pink-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                    href="/user/vehicles"
+                <a
+                  className="flex select-none items-center gap-2 rounded-lg py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-gray-500 transition-all hover:bg-pink-500/10 active:bg-pink-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                  href="/user/vehicles"
+                >
+                  Learn More
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="2"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                    className="h-4 w-4"
                   >
-                    Learn More
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="2"
-                      stroke="currentColor"
-                      aria-hidden="true"
-                      className="h-4 w-4"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
-                      ></path>
-                    </svg>
-                  </a>
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+                    ></path>
+                  </svg>
                 </a>
               </div>
             </div>
           </div>
+        ) : (
+          <></>
         )}
       </div>
     </div>

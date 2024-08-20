@@ -41,15 +41,8 @@ router.get("/:id", async (req, res) => {
 
 // POST a new user
 router.post("/", async (req, res) => {
-  const {
-    name,
-    email,
-    password,
-    role,
-    address,
-    contact_number,
-    date_of_birth,
-  } = req.body;
+  const { name, email, role, address, contact_number, date_of_birth } =
+    req.body;
 
   try {
     // Check if the email already exists
@@ -64,14 +57,12 @@ router.post("/", async (req, res) => {
     }
 
     // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create the new user
     const newUser = await prisma.user.create({
       data: {
         name,
         email,
-        password: hashedPassword,
         role,
         address,
         contact_number,
@@ -99,40 +90,38 @@ router.post("/", async (req, res) => {
 });
 
 // PATCH (update) a user - Authenticated route
-router.patch("/", authMiddleware, async (req, res) => {
-  const {
-    id,
-    name,
-    email,
-    password,
-    role,
-    address,
-    contact_number,
-    date_of_birth,
-  } = req.body;
+router.patch("/:id", async (req, res) => {
+  const { name, email, role, address, contact_number, date_of_birth } =
+    req.body;
+
+  const { id } = req.params; // Extract id from params
+
+  if (!id || isNaN(parseInt(id))) {
+    return res.status(400).json({ status: false, error: "Invalid ID" });
+  }
+
+  const updatedData = {};
+
+  // Only include fields that are present in the request body
+  if (name) updatedData.name = name;
+  if (role) updatedData.role = role;
+  if (address) updatedData.address = address;
+  if (contact_number) updatedData.contact_number = contact_number;
+  if (date_of_birth) updatedData.date_of_birth = date_of_birth;
+
   try {
-    const updatedData = {
-      name,
-      email,
-      role,
-      address,
-      contact_number,
-      date_of_birth,
-    };
-    if (password) {
-      updatedData.password = await bcrypt.hash(password, 10);
-    }
     const updatedUser = await prisma.user.update({
       where: { id: parseInt(id) },
       data: updatedData,
     });
+
     res.status(200).json({
       status: true,
       message: "User Updated Successfully",
       user: updatedUser,
     });
   } catch (error) {
-    res.status(500).send({ status: false, error: error.message });
+    res.status(500).json({ status: false, error: error.message });
   }
 });
 
@@ -163,7 +152,6 @@ router.delete("/:id", async (req, res) => {
 });
 
 //=========>New Routes<==========//
-
 
 // GET all vehicles by user_id
 router.get("/vehicle/:user_id", async (req, res) => {
