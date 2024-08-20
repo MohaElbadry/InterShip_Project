@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import VehicleRow from "./VehicleRow"; // Import VehicleRow component
+import { useAuth } from "../../../../context/AuthContext";
 
 export default function VehiclesTable({ vehicles }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [vehicleIdToDelete, setVehicleIdToDelete] = useState(null);
-
+  const { auth } = useAuth();
   const handleOpenModal = (id) => {
     setVehicleIdToDelete(id);
     setIsModalOpen(true);
@@ -23,6 +24,9 @@ export default function VehiclesTable({ vehicles }) {
           `${process.env.REACT_APP_API_LINK}/vehicles/${vehicleIdToDelete}`,
           {
             method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${auth.token}`,
+            },
           }
         );
 

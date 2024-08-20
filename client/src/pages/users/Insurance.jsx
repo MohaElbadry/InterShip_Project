@@ -4,28 +4,28 @@ import Sidebar from "../../components/common/user/Sidebar";
 import InsuranceTable from "../../components/common/user/insurance/InsuranceTable";
 import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
-import InsuranceAddModal from "../../components/common/user/insurance/InsuranceAddModal";
-import icon from "../../assets/plus_round_icon.svg";
 
 export default function Insurance() {
   const { auth } = useAuth(); // Get the auth data from context
-  const [Insurance, Ietinsurance] = useState([]);
+  const [insurances, setInsurance] = useState([]);
   const [loading, setLoading] = useState(true); // Loading state
   const [message, setMessage] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
 
   useEffect(() => {
-    const Ietchinsurance = async () => {
+    const featchInsurance = async () => {
       try {
         // Fetch all Insurance for the user in reverse order
         const response = await axios.get(
-          `${process.env.REACT_APP_API_LINK}/user/insurance/${auth.user.id}`
+          `${process.env.REACT_APP_API_LINK}/insurance/user/${auth.user.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${auth.token}`,
+            },
+          }
         );
+        console.log(response.data);
         if (response.data.length > 0) {
-          Ietinsurance(response.data); // Store all Insurance
+          setInsurance(response.data); // Store all Insurance
         } else {
           setMessage("No Insurance found for this user.");
         }
@@ -40,7 +40,7 @@ export default function Insurance() {
       }
     };
 
-    Ietchinsurance();
+    featchInsurance();
   }, []);
 
   if (loading) return <p>Loading...</p>; // Display loading message while fetching
@@ -52,19 +52,8 @@ export default function Insurance() {
       {/* ./Header */}
       <Sidebar />
       <div className="h-full ml-14 mt-14 mb-10 md:ml-64">
-        <div>
-          <button
-            onClick={openModal}
-            className="bg-[#F7BB00] mt-4  font-bold py-2 px-2 ml-4 rounded-full "
-          >
-            <img src={icon} alt="logo" className="w-4 " />
-          </button>
-
-          {/* The modal component */}
-          <insuranceAddModal isOpen={isModalOpen} onClose={closeModal} />
-        </div>{" "}
-        {Insurance && Insurance.length > 0 ? (
-          <InsuranceTable Insurance={Insurance} />
+        {insurances && insurances.length > 0 ? (
+          <InsuranceTable insurances={insurances} />
         ) : (
           message && (
             <div className="flex justify-center items-center h-full">

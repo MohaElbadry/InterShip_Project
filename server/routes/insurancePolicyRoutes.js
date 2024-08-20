@@ -13,6 +13,28 @@ router.get("/", async (req, res) => {
   }
 });
 
+// GET all insurance policies for a specific user
+router.get("/user/:userId", async (req, res) => {
+  const userId = parseInt(req.params.userId);
+
+  try {
+    const policies = await prisma.insurancePolicy.findMany({
+      where: { user_id: userId },
+      include: {
+        vehicle: {
+          select: {
+            make: true,
+            model: true,
+          },
+        },
+      },
+    });
+    res.send(policies);
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+});
+
 // GET insurance policy by ID
 router.get("/:id", async (req, res) => {
   const { id } = req.params;

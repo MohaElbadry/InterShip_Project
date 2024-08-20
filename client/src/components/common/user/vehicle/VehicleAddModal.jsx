@@ -38,6 +38,7 @@ export default function VehicleAddModal({ isOpen, onClose }) {
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${auth.token}`,
           },
         }
       );

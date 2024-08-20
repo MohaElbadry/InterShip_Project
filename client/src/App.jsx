@@ -12,6 +12,7 @@ import RequireAuth from "./pages/auth/RequireAuth";
 import NotFound from "./pages/NotFound";
 import { AuthProvider } from "./context/AuthContext";
 import Accident from "./pages/users/Accident";
+import Insurance from "./pages/users/Insurance";
 
 const App = () => {
   return (
@@ -34,6 +35,7 @@ const App = () => {
             <Route path="/user/vehicles" element={<Vehicles />} />
             <Route path="/user/claim" element={<Claim />} />
             <Route path="/user/accident" element={<Accident />} />
+            <Route path="/user/insurance" element={<Insurance />} />
           </Route>
 
           {/* 404 Not Found */}
