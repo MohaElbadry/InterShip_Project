@@ -41,8 +41,15 @@ router.get("/:id", async (req, res) => {
 
 // POST a new user
 router.post("/", async (req, res) => {
-  const { name, email, role, address, contact_number, date_of_birth } =
-    req.body;
+  const {
+    name,
+    email,
+    role,
+    address,
+    contact_number,
+    date_of_birth,
+    password,
+  } = req.body;
 
   try {
     // Check if the email already exists
@@ -57,12 +64,14 @@ router.post("/", async (req, res) => {
     }
 
     // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create the new user
     const newUser = await prisma.user.create({
       data: {
         name,
         email,
+        password: hashedPassword,
         role,
         address,
         contact_number,
