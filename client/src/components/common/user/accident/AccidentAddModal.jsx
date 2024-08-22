@@ -76,6 +76,7 @@ export default function AccidentAddModal({ isOpen, onClose }) {
 
       reset();
       onClose();
+      window.location.reload(); // Reload the page after successful submission
     } catch (error) {
       console.error("Error:", error.response.data.error);
     }

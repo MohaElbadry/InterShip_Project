@@ -43,6 +43,7 @@ export default function VehicleAddModal({ isOpen, onClose }) {
         }
       );
       reset();
+
       onClose(); // Close the modal after successful submission
       window.location.reload(); // Reload the page after successful submission
     } catch (error) {

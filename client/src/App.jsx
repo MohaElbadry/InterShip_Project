@@ -7,6 +7,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminUsers from "./pages/admin/AdminUsers";
 import UserDashboard from "./pages/users/UserDashboard";
 import Vehicles from "./pages/users/Vehicles";
+import AdminVehicles from "./pages/admin/Vehicles";
 import Claim from "./pages/users/Claim";
 import RequireAuth from "./pages/auth/RequireAuth";
 import NotFound from "./pages/NotFound";
@@ -14,11 +15,14 @@ import { AuthProvider } from "./context/AuthContext";
 import Accident from "./pages/users/Accident";
 import Insurance from "./pages/users/Insurance";
 import UserProfile from "./pages/users/UserProfile";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   return (
     <AuthProvider>
       <Router>
+        {" "}
+        <Toaster position="top-right" reverseOrder={false} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
@@ -29,6 +33,7 @@ const App = () => {
           <Route element={<RequireAuth role="admin" />}>
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/users" element={<AdminUsers />} />
+            <Route path="/admin/vehicles" element={<AdminVehicles />} />
           </Route>
 
           <Route element={<RequireAuth role="user" />}>

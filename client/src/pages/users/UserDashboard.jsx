@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Menu from "../../components/common/user/Menu";
+import Menu from "../../components/layout/Menu";
 import StatisticsCard from "./StatisticsCard";
-import Sidebar from "../../components/common/user/Sidebar";
+import Sidebar from "../../components/layout/Sidebar";
 import { useAuth } from "../../context/AuthContext";
 import axios from "axios";
 export default function UserDashboard() {

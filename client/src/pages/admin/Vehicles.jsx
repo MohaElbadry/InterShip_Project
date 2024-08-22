@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import Menu from "../../components/layout/Menu";
-import Sidebar from "../../components/layout/Sidebar";
-import AccidentTable from "../../components/common/user/accident/AccidentTable";
+import MenuDark from "../../components/layout/MenuDark";
+import SidebarDark from "../../components/layout/SidebarDark";
+import VehiclesTable from "../../components/common/admin/vehicle/VehiclesTable";
 import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
-import AccidentAddModal from "../../components/common/user/accident/AccidentAddModal";
+import VehicleAddModal from "../../components/common/admin/vehicle/VehicleAddModal";
 import icon from "../../assets/plus_round_icon.svg";
 
-export default function Accident() {
+export default function Vehicles() {
   const { auth } = useAuth(); // Get the auth data from context
-  const [accidents, setAccidents] = useState([]);
+  const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true); // Loading state
   const [message, setMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -18,59 +18,61 @@ export default function Accident() {
   const closeModal = () => setIsModalOpen(false);
 
   useEffect(() => {
-    const fetchAccidents = async () => {
+    const fetchVehicles = async () => {
       try {
-        // Fetch all accidents for the userconsole.log(response);
+        // Fetch all vehicles for the user in reverse order
         const response = await axios.get(
-          `${process.env.REACT_APP_API_LINK}/accident/user/${auth.user.id}`,
+          `${process.env.REACT_APP_API_LINK}/vehicles/`,
           {
             headers: {
               Authorization: `Bearer ${auth.token}`,
             },
           }
         );
+        const reversedVehicles = response.data.reverse();
 
-        if (response.data.length > 0) {
-          setAccidents(response.data); // Store all accidents
+        if (reversedVehicles.length > 0) {
+          setVehicles(reversedVehicles); // Store all vehicles
         } else {
-          setMessage("No accidents found for this user.");
+          setMessage("No vehicles found for this user.");
         }
       } catch (error) {
         if (error.response && error.response.status === 404) {
-          setMessage("No accidents found for this user.");
+          setMessage("No vehicles found for this user.");
         } else {
-          setMessage("An error occurred while fetching accidents.");
+          setMessage("An error occurred while fetching vehicles.");
         }
       } finally {
         setLoading(false); // Stop loading
       }
     };
 
-    fetchAccidents();
-  }, [auth.user.id]);
+    fetchVehicles();
+  }, []);
 
   if (loading) return <p>Loading...</p>; // Display loading message while fetching
 
   return (
-    <div className="min-h-screen  flex flex-col flex-auto flex-shrink-0 antialiased bg-white text-black">
+    <div className="min-h-screen flex flex-col flex-auto flex-shrink-0 antialiased bg-gray-700  text-black">
       {/* Header */}
-      <Menu />
-      {/* Sidebar */}
-      <Sidebar />
+      <MenuDark />
+      {/* ./Header */}
+      <SidebarDark />
+      {/* <!-- Statistics Cards --> */}
       <div className="h-full ml-14 mt-14 mb-10 md:ml-64">
         <div>
           <button
             onClick={openModal}
-            className="bg-[#F7BB00] my-4 font-bold py-2 px-2 ml-4 rounded-full "
+            className="bg-[#F7BB00] mt-4  font-bold py-2 px-2 ml-4 rounded-full "
           >
             <img src={icon} alt="logo" className="w-4 " />
           </button>
 
-          {/* AccidentAddModal */}
-          <AccidentAddModal isOpen={isModalOpen} onClose={closeModal} />
+          {/* The modal component */}
+          <VehicleAddModal isOpen={isModalOpen} onClose={closeModal} />
         </div>
-        {accidents && accidents.length > 0 ? (
-          <AccidentTable accidents={accidents} />
+        {vehicles && vehicles.length > 0 ? (
+          <VehiclesTable vehicles={vehicles} />
         ) : (
           message && (
             <div className="flex justify-center items-center h-full">

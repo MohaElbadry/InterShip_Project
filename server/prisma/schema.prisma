@@ -96,7 +96,7 @@ model ArchivedVehicle {
   year              Int
   license_plate     String
   picture_url       String?           // New field for picture URL
-  vin_number        String            @unique
+  vin_number        String            
   deleted_at        DateTime          @default(now()) // Timestamp of when the vehicle was archived
   
   @@map("archived_vehicle")

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Menu from "../../components/common/user/Menu";
-import Sidebar from "../../components/common/user/Sidebar";
+import Menu from "../../components/layout/Menu";
+import Sidebar from "../../components/layout/Sidebar";
 import VehiclesTable from "../../components/common/user/vehicle/VehiclesTable";
 import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
