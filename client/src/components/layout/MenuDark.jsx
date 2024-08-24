@@ -4,6 +4,7 @@ import Logout from "../../pages/auth/Logout";
 
 export default function MenuDark() {
   const { auth } = useAuth();
+
   return (
     <div className="fixed w-full flex items-center justify-between h-14 text-white z-10 bg-gray-800">
       <div className="flex items-center justify-start pl-3 w-14 md:w-64 h-14 bg-gray-800">
@@ -19,7 +20,16 @@ export default function MenuDark() {
       <div className="flex flex-row-reverse justify-between h-14 bg-gray-800">
         <ul className="flex items-center">
           <li>
-            <Logout style="flex items-center mr-4 hover:text-gray-300" />
+            <a
+              href="/"
+              className="block py-2 px-3 mr-3   rounded md:bg-transparent md:p-0 text-white "
+              aria-current="page"
+            >
+              Home
+            </a>
+          </li>
+          <li>
+            <Logout style="flex items-center  mr-4 hover:text-gray-300" />
           </li>
         </ul>
       </div>

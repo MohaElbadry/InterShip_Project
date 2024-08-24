@@ -27,9 +27,31 @@ export default function Login() {
                   Home
                 </a>
               </li>
+              {auth?.user.role == "admin" ? (
+                <a
+                  href="/admin"
+                  className="block py-2 px-3   rounded md:bg-transparent md:p-0 text-white "
+                  aria-current="page"
+                >
+                  Dashboard
+                </a>
+              ) : (
+                <></>
+              )}
+              {auth?.user.role == "user" ? (
+                <a
+                  href="/user"
+                  className="block py-2 px-3   rounded md:bg-transparent md:p-0 text-white "
+                  aria-current="page"
+                >
+                  Dashboard
+                </a>
+              ) : (
+                <></>
+              )}
               {auth?.user ? (
                 <li>
-                  <Logout /> {/* Show logout button if user is authenticated */}
+                  <Logout style="flex items-center text-white mr-4 hover:text-gray-300" />
                 </li>
               ) : (
                 <li>

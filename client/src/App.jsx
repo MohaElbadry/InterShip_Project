@@ -1,21 +1,25 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
+import { AuthProvider } from "./context/AuthContext";
+// Auth pages
 import Home from "./pages/Home";
 import LogIn from "./pages/auth/LogIn";
 import SignUp from "./pages/auth/SignUp";
+// Admin pages
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminUsers from "./pages/admin/AdminUsers";
+import AdminVehicles from "./pages/admin/Vehicles";
+import AdminAccidents from "./pages/admin/Accidents";
+// User Pages
 import UserDashboard from "./pages/users/UserDashboard";
 import Vehicles from "./pages/users/Vehicles";
-import AdminVehicles from "./pages/admin/Vehicles";
 import Claim from "./pages/users/Claim";
 import RequireAuth from "./pages/auth/RequireAuth";
 import NotFound from "./pages/NotFound";
-import { AuthProvider } from "./context/AuthContext";
 import Accident from "./pages/users/Accident";
 import Insurance from "./pages/users/Insurance";
 import UserProfile from "./pages/users/UserProfile";
-import { Toaster } from "react-hot-toast";
 
 const App = () => {
   return (
@@ -34,6 +38,7 @@ const App = () => {
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/users" element={<AdminUsers />} />
             <Route path="/admin/vehicles" element={<AdminVehicles />} />
+            <Route path="/admin/accidents" element={<AdminAccidents />} />
           </Route>
 
           <Route element={<RequireAuth role="user" />}>

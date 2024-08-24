@@ -14,21 +14,51 @@ router.get("/", async (req, res) => {
   }
 });
 
-// GET accident by ID
+// GET accident by ID with associated vehicles
+// GET accident by ID with associated vehicles using a natural join-like approach
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
+  const accidentId = parseInt(id, 10); // Convert id to integer
+
+  if (isNaN(accidentId)) {
+    return res.status(400).json({ error: "Invalid accident ID" });
+  }
+
   try {
     const accident = await prisma.accident.findUnique({
-      where: { id: parseInt(id) },
+      where: { id: accidentId },
+      include: {
+        AccidentVehicle: {
+          include: {
+            vehicle: true, // This pulls the vehicles related to the accident via the AccidentVehicle model
+          },
+        },
+      },
     });
+
     if (!accident) {
-      return res.status(404).json({ message: "Accident not found" });
+      return res.status(404).json({ error: "Accident not found" });
     }
-    res.status(200).json(accident);
+
+    // Extract the vehicles from the AccidentVehicle relation
+    const vehicles = accident.AccidentVehicle.map((av) => av.vehicle);
+
+    // Return accident details and the associated vehicles
+    res.status(200).json({
+      accident: {
+        id: accident.id,
+        date: accident.date,
+        location: accident.location,
+        description: accident.description,
+      },
+      vehicles,
+    });
   } catch (error) {
-    res.status(500).send({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 });
+
+
 
 // GET all accidents related to a specific user's vehicles
 router.get("/user/:user_id", async (req, res) => {

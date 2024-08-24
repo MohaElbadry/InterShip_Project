@@ -96,98 +96,98 @@ const Hero = () => {
         </div>
       </div>
       {/* SECTION_2 */}
-      <section class=" px-4 sm:px-6 md:px-8  pb-10 lg:pt-[10px] lg:pb-20 bg-[#f1f9fa] dark:bg-dark">
-        <div class="container  mx-auto w-full max-w-[1200px]">
-          <div class="flex flex-wrap justify-center -mx-4">
-            <div class="w-full px-4">
-              <div class="mx-auto mb-[60px] max-w-[510px] text-center lg:mb-20 mt-4">
-                <h2 class=" text-3xl font-bold text-[#003781] sm:text-4xl md:text-[40px] ">
+      <section className=" px-4 sm:px-6 md:px-8  pb-10 lg:pt-[10px] lg:pb-20 bg-[#f1f9fa] dark:bg-dark">
+        <div className="container  mx-auto w-full max-w-[1200px]">
+          <div className="flex flex-wrap justify-center -mx-4">
+            <div className="w-full px-4">
+              <div className="mx-auto mb-[60px] max-w-[510px] text-center lg:mb-20 mt-4">
+                <h2 className=" text-3xl font-bold text-[#003781] sm:text-4xl md:text-[40px] ">
                   Latest news
                 </h2>
               </div>
             </div>
           </div>
-          <div class="flex flex-wrap mx-4">
-            <div class="w-full px-4 md:w-1/2 lg:w-1/3">
-              <div class="w-full mb-5">
-                <div class="mb-8 overflow-hidden rounded">
+          <div className="flex flex-wrap mx-4">
+            <div className="w-full px-4 md:w-1/2 lg:w-1/3">
+              <div className="w-full mb-5">
+                <div className="mb-8 overflow-hidden rounded">
                   <img
                     src="https://cdn.tailgrids.com/2.0/image/application/images/blogs/blog-01/image-01.jpg"
                     alt="image"
-                    class="w-full"
+                    className="w-full"
                   />
                 </div>
                 <div>
-                  <span class="inline-block px-4 py-1 mb-5 text-xs font-semibold leading-loose text-center text-dark rounded bg-primary">
+                  <span className="inline-block px-4 py-1 mb-5 text-xs font-semibold leading-loose text-center text-dark rounded bg-primary">
                     Dec 22, 2023
                   </span>
                   <h3>
                     <a
                       href="javascript:void(0)"
-                      class="inline-block mb-4 text-xl font-semibold text-dark dark:text-white hover:text-primary sm:text-2xl lg:text-xl xl:text-2xl"
+                      className="inline-block mb-4 text-xl font-semibold text-dark dark:text-white hover:text-primary sm:text-2xl lg:text-xl xl:text-2xl"
                     >
                       Allianz achieves record profits in first half of 2024
                     </a>
                   </h3>
-                  <p class="text-base text-body-color dark:text-dark-6">
+                  <p className="text-base text-body-color dark:text-dark-6">
                     Lorem Ipsum is simply dummy text of the printing and
                     typesetting industry.
                   </p>
                 </div>
               </div>
             </div>
-            <div class="w-full px-4 md:w-1/2 lg:w-1/3">
-              <div class="w-full mb-10">
-                <div class="mb-8 overflow-hidden rounded">
+            <div className="w-full px-4 md:w-1/2 lg:w-1/3">
+              <div className="w-full mb-10">
+                <div className="mb-8 overflow-hidden rounded">
                   <img
                     src="https://cdn.tailgrids.com/2.0/image/application/images/blogs/blog-01/image-02.jpg"
                     alt="image"
-                    class="w-full"
+                    className="w-full"
                   />
                 </div>
                 <div>
-                  <span class="inline-block px-4 py-1 mb-5 text-xs font-semibold leading-loose text-center text-dark rounded bg-primary">
+                  <span className="inline-block px-4 py-1 mb-5 text-xs font-semibold leading-loose text-center text-dark rounded bg-primary">
                     Mar 15, 2023
                   </span>
                   <h3>
                     <a
                       href="javascript:void(0)"
-                      class="inline-block mb-4 text-xl font-semibold text-dark dark:text-white hover:text-primary sm:text-2xl lg:text-xl xl:text-2xl"
+                      className="inline-block mb-4 text-xl font-semibold text-dark dark:text-white hover:text-primary sm:text-2xl lg:text-xl xl:text-2xl"
                     >
                       Allianz SE has decided to expand the total volume of share
                       buy-backs in the financial year 2024
                     </a>
                   </h3>
-                  <p class="text-base text-body-color dark:text-dark-6">
+                  <p className="text-base text-body-color dark:text-dark-6">
                     Lorem Ipsum is simply dummy text of the printing and
                     typesetting industry.
                   </p>
                 </div>
               </div>
             </div>
-            <div class="w-full px-4 md:w-1/2 lg:w-1/3">
-              <div class="w-full mb-10">
-                <div class="mb-8 overflow-hidden rounded">
+            <div className="w-full px-4 md:w-1/2 lg:w-1/3">
+              <div className="w-full mb-10">
+                <div className="mb-8 overflow-hidden rounded">
                   <img
                     src="https://cdn.tailgrids.com/2.0/image/application/images/blogs/blog-01/image-03.jpg"
                     alt="image"
-                    class="w-full"
+                    className="w-full"
                   />
                 </div>
                 <div>
-                  <span class="inline-block px-4 py-1 mb-5 text-xs font-semibold leading-loose text-center text-dark rounded bg-primary">
+                  <span className="inline-block px-4 py-1 mb-5 text-xs font-semibold leading-loose text-center text-dark rounded bg-primary">
                     Jan 05, 2023
                   </span>
                   <h3>
                     <a
                       href="javascript:void(0)"
-                      class="inline-block mb-4 text-xl font-semibold text-dark dark:text-white hover:text-primary sm:text-2xl lg:text-xl xl:text-2xl"
+                      className="inline-block mb-4 text-xl font-semibold text-dark dark:text-white hover:text-primary sm:text-2xl lg:text-xl xl:text-2xl"
                     >
                       Allianz pledges long-term commitment to rugby through
                       multi-year RFU partnership
                     </a>
                   </h3>
-                  <p class="text-base text-body-color dark:text-dark-6">
+                  <p className="text-base text-body-color dark:text-dark-6">
                     Lorem Ipsum is simply dummy text of the printing and
                     typesetting industry.
                   </p>
