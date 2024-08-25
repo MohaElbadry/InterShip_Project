@@ -11,6 +11,8 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminVehicles from "./pages/admin/Vehicles";
 import AdminAccidents from "./pages/admin/Accidents";
+import AdminClaim from "./pages/admin/Claim";
+import AdminPolicy from "./pages/admin/Policy";
 // User Pages
 import UserDashboard from "./pages/users/UserDashboard";
 import Vehicles from "./pages/users/Vehicles";
@@ -39,6 +41,8 @@ const App = () => {
             <Route path="/admin/users" element={<AdminUsers />} />
             <Route path="/admin/vehicles" element={<AdminVehicles />} />
             <Route path="/admin/accidents" element={<AdminAccidents />} />
+            <Route path="/admin/claims" element={<AdminClaim />} />
+            <Route path="/admin/policies" element={<AdminPolicy />} />
           </Route>
 
           <Route element={<RequireAuth role="user" />}>

@@ -6,30 +6,61 @@ const router = express.Router();
 // GET all insurance policies
 router.get("/", async (req, res) => {
   try {
-    const policies = await prisma.insurancePolicy.findMany();
+    const policies = await prisma.insurancePolicy.findMany({
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+        vehicle: {
+          select: {
+            id: true,
+            make: true,
+            model: true,
+            year: true,
+            license_plate: true,
+          },
+        },
+      },
+    });
     res.send(policies);
   } catch (error) {
     res.status(500).send({ error: error.message });
   }
 });
 
-// GET all insurance policies for a specific user
-router.get("/user/:userId", async (req, res) => {
-  const userId = parseInt(req.params.userId);
-
+// GET insurance policy by ID
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
   try {
-    const policies = await prisma.insurancePolicy.findMany({
-      where: { user_id: userId },
+    const policy = await prisma.insurancePolicy.findUnique({
+      where: { id: parseInt(id) },
       include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
         vehicle: {
           select: {
+            id: true,
             make: true,
             model: true,
+            year: true,
+            license_plate: true,
           },
         },
       },
     });
-    res.send(policies);
+    if (!policy) {
+      return res.status(404).json({ message: "Policy not found" });
+    }
+    res.status(200).json(policy);
   } catch (error) {
     res.status(500).send({ error: error.message });
   }
@@ -82,32 +113,15 @@ router.post("/", async (req, res) => {
   }
 });
 
-// PATCH (update) an insurance policy
-router.patch("/", async (req, res) => {
-  const {
-    id,
-    user_id,
-    vehicle_id,
-    policy_number,
-    type,
-    start_date,
-    end_date,
-    amount,
-    status,
-  } = req.body;
+// PATCH (update) an insurance policy status
+router.patch("/:id", async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
   try {
     const updatedPolicy = await prisma.insurancePolicy.update({
       where: { id: parseInt(id) },
-      data: {
-        user_id,
-        vehicle_id,
-        policy_number,
-        type,
-        start_date,
-        end_date,
-        amount,
-        status,
-      },
+      data: { status },
     });
     res.status(200).json(updatedPolicy);
   } catch (error) {
