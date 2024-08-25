@@ -8,7 +8,7 @@ import LogIn from "./pages/auth/LogIn";
 import SignUp from "./pages/auth/SignUp";
 // Admin pages
 import AdminDashboard from "./pages/admin/AdminDashboard";
-import AdminUsers from "./pages/admin/AdminUsers";
+import Users from "./pages/admin/Users";
 import AdminVehicles from "./pages/admin/Vehicles";
 import AdminAccidents from "./pages/admin/Accidents";
 import AdminClaim from "./pages/admin/Claim";
@@ -38,7 +38,7 @@ const App = () => {
           {/* Private Routes */}
           <Route element={<RequireAuth role="admin" />}>
             <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/admin/users" element={<AdminUsers />} />
+            <Route path="/admin/users" element={<Users />} />
             <Route path="/admin/vehicles" element={<AdminVehicles />} />
             <Route path="/admin/accidents" element={<AdminAccidents />} />
             <Route path="/admin/claims" element={<AdminClaim />} />

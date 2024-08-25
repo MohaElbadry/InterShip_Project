@@ -9,14 +9,7 @@ const router = express.Router();
 // GET all users
 router.get("/", async (req, res) => {
   try {
-    const users = await prisma.user.findMany({
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        role: true,
-      },
-    });
+    const users = await prisma.user.findMany({});
     res.send(users);
   } catch (error) {
     res.status(500).send({ error: error.message });
@@ -98,39 +91,48 @@ router.post("/", async (req, res) => {
   }
 });
 
-// PATCH (update) a user - Authenticated route
+// PATCH (update) a user
 router.patch("/:id", async (req, res) => {
-  const { name, email, role, address, contact_number, date_of_birth } =
-    req.body;
+  const { id } = req.params;
+  const userId = parseInt(id, 10);
+  let { name, email, role, address, contact_number, date_of_birth } = req.body;
 
-  const { id } = req.params; // Extract id from params
-
-  if (!id || isNaN(parseInt(id))) {
-    return res.status(400).json({ status: false, error: "Invalid ID" });
+  if (isNaN(userId)) {
+    return res.status(400).json({ error: "Invalid user ID" });
   }
 
-  const updatedData = {};
+  // Create a data object only with provided fields
+  const data = {};
 
-  // Only include fields that are present in the request body
-  if (name) updatedData.name = name;
-  if (role) updatedData.role = role;
-  if (address) updatedData.address = address;
-  if (contact_number) updatedData.contact_number = contact_number;
-  if (date_of_birth) updatedData.date_of_birth = date_of_birth;
+  if (name !== undefined) data.name = name;
+  if (email !== undefined) data.email = email;
+  if (role !== undefined) data.role = role;
+  if (address !== undefined) data.address = address;
+  if (contact_number !== undefined) data.contact_number = contact_number;
+  if (date_of_birth !== undefined) data.date_of_birth = date_of_birth;
+
+  if (Object.keys(data).length === 0) {
+    return res.status(400).json({ error: "No fields to update" });
+  }
 
   try {
     const updatedUser = await prisma.user.update({
-      where: { id: parseInt(id) },
-      data: updatedData,
+      where: { id: userId },
+      data,
     });
-
-    res.status(200).json({
-      status: true,
-      message: "User Updated Successfully",
-      user: updatedUser,
-    });
+    res.status(200).json(updatedUser);
   } catch (error) {
-    res.status(500).json({ status: false, error: error.message });
+    if (error.code === "P2002") {
+      // Unique constraint violation (e.g., email must be unique)
+      res.status(400).json({
+        error: "Unique constraint violation. Please check the email",
+      });
+    } else if (error.code === "P2025") {
+      // Record not found
+      res.status(404).json({ error: "User not found" });
+    } else {
+      res.status(500).json({ error: error.message });
+    }
   }
 });
 
