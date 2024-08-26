@@ -1,69 +1,84 @@
-import React from "react";
-import axios from "axios";
-import { useAuth } from "../../../../context/AuthContext";
-import img from "../../../../assets/verified.svg";
-export default function ClaimRow({ claim, onUpdate }) {
-  const { auth } = useAuth(); // Assuming you have authentication context
-  const formattedDate = new Date(claim.accident.date)
-    .toISOString()
-    .split("T")[0];
+import React, { useState } from "react";
+import ReactDOM from "react-dom";
+import ClaimDetailsModal from "./ClaimDetailsModal";
+import ClaimUpdateModal from "./ClaimUpdateModal";
+import { FaEye, FaEdit } from "react-icons/fa";
 
-  const handleConfirmClaim = async () => {
-    try {
-      const updatedClaim = {
-        ...claim,
-        status: "Claimed", // Update status to "Claimed"
-      };
-      await axios.patch(
-        `${process.env.REACT_APP_API_LINK}/claim`,
-        updatedClaim,
-        {
-          headers: {
-            Authorization: `Bearer ${auth.token}`,
-          },
-        }
-      );
-      onUpdate(updatedClaim); // Notify parent component to refresh the list
-    } catch (error) {
-      console.error("Error updating claim:", error);
+export default function ClaimRow({ claim, onUpdateClaim }) {
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+
+  const handleDetailsModalOpen = () => setIsDetailsModalOpen(true);
+  const handleDetailsModalClose = () => setIsDetailsModalOpen(false);
+
+  const handleUpdateModalOpen = () => setIsUpdateModalOpen(true);
+  const handleUpdateModalClose = () => setIsUpdateModalOpen(false);
+
+  const getStatusColor = (status) => {
+    switch (status.toLowerCase()) {
+      case "approved":
+        return "bg-green-100 text-green-800";
+      case "rejected":
+        return "bg-red-100 text-red-800";
+      case "pending":
+        return "bg-yellow-100 text-yellow-800";
+      default:
+        return "bg-blue-100 text-blue-800";
     }
   };
 
   return (
     <>
-      <tr className="bg-gray-50 text-center border-b-2 border-gray-200 hover:bg-gray-100 text-gray-700">
-        <td className="px-4 py-3 text-base font-bold ">{formattedDate}</td>
-        <td className=" py-3 text-sm">{claim.date_submitted}</td>
-        <td className=" py-3 text-sm">
+      <tr className="bg-white border-b hover:bg-gray-50">
+        <td className="px-6 py-4">{claim.claim_number}</td>
+        <td className="px-6 py-4">
+          {claim.user && claim.user.name ? claim.user.name : "N/A"}
+        </td>
+        <td className="px-6 py-4">
+          {new Date(claim.date_submitted).toLocaleDateString()}
+        </td>
+        <td className="px-6 py-4">
           <span
-            className={`px-2 py-1 font-semibold leading-tight rounded-full ${
-              claim.status === "Approved" || claim.status === "approved"
-                ? "bg-green-200 text-green-700"
-                : claim.status === "Submitted" || claim.status === "submitted"
-                ? "bg-blue-200 text-blue-700"
-                : claim.status === "Claimed"
-                ? "bg-yellow-200 text-yellow-700"
-                : "bg-gray-200 text-gray-700"
-            }`}
+            className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(
+              claim.status
+            )}`}
           >
             {claim.status}
           </span>
         </td>
-        <td className=" py-3 text-sm">
-          {claim.description.split(" ").slice(0, 4).join(" ") +
-            (claim.description.split(" ").length > 6 ? "..." : "")}{" "}
-        </td>
-        <td className=" py-3 text-sm">{claim.amount_claimed}</td>
-        <td className=" py-3 text-sm">
-          {(claim.status === "Approved") | (claim.status === "approved") ? (
-            <button onClick={handleConfirmClaim} className="py-1 px-3 ">
-              <img src={img} />
-            </button>
-          ) : (
-            <></>
-          )}
+        <td className="px-6 py-4">${claim.amount_claimed.toFixed(2)}</td>
+        <td className="px-6 py-4 text-right">
+          <button
+            onClick={handleDetailsModalOpen}
+            className="text-blue-600 hover:text-blue-900 mr-2"
+          >
+            <FaEye size={20} />
+          </button>
+          <button
+            onClick={handleUpdateModalOpen}
+            className="text-green-600 hover:text-green-900"
+          >
+            <FaEdit size={20} />
+          </button>
         </td>
       </tr>
+      {isDetailsModalOpen &&
+        ReactDOM.createPortal(
+          <ClaimDetailsModal
+            claimId={claim.id}
+            onClose={handleDetailsModalClose}
+          />,
+          document.body
+        )}
+      {isUpdateModalOpen &&
+        ReactDOM.createPortal(
+          <ClaimUpdateModal
+            claim={claim}
+            onClose={handleUpdateModalClose}
+            onUpdateClaim={onUpdateClaim}
+          />,
+          document.body
+        )}
     </>
   );
 }

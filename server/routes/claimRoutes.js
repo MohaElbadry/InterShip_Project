@@ -14,6 +14,12 @@ router.get("/", async (req, res) => {
             description: true,
           },
         },
+        user: {
+          select: {
+            name: true,
+            email: true,
+          },
+        },
       },
     });
     res.send(claims);
@@ -33,6 +39,12 @@ router.get("/:id", async (req, res) => {
           select: {
             date: true,
             description: true,
+          },
+        },
+        user: {
+          select: {
+            name: true,
+            email: true,
           },
         },
       },

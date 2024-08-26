@@ -45,10 +45,10 @@ export default function UserDetailsModal({ userId, onClose }) {
   if (!userDetails) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+    <div className="fixed inset-0 z-10 overflow-y-auto   flex items-center justify-center bg-gray-500 bg-opacity-50">
       <div className="bg-white p-8 rounded-lg shadow-xl max-w-2xl w-full">
         <div className="flex justify-between items-start mb-6">
-          <h2 className="text-3xl font-bold text-gray-800">User Details</h2>
+          <h2 className="text-3xl font-bold text-gray-800 ">User Details</h2>
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600"

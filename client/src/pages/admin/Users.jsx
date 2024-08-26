@@ -35,7 +35,8 @@ export default function Users() {
           },
         }
       );
-      setUsers(response.data);
+      const reversedUsers = response.data.reverse();
+      setUsers(reversedUsers);
       console.log(response.data);
       if (response.data.length === 0) {
         setMessage("No users found.");
@@ -58,8 +59,6 @@ export default function Users() {
     setUsers((prevUsers) => [newUser, ...prevUsers]);
     closeModal();
   };
-
-  
 
   if (loading) return <p>Loading...</p>;
 
@@ -86,7 +85,7 @@ export default function Users() {
           </div>
         </div>
         {users.length > 0 ? (
-          <UserTable users={filteredUsers}  />
+          <UserTable users={filteredUsers} />
         ) : (
           message && (
             <div className="flex justify-center items-center h-full">
