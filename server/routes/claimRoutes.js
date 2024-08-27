@@ -98,13 +98,13 @@ router.post("/", async (req, res) => {
   try {
     const newClaim = await prisma.claim.create({
       data: {
-        user_id,
-        accident_id,
-        claim_number,
-        date_submitted,
-        status,
+        user_id: parseInt(user_id),
+        accident_id: parseInt(accident_id),
+        claim_number: claim_number || undefined,
+        date_submitted: new Date(date_submitted),
+        status: status || undefined,
         description,
-        amount_claimed,
+        amount_claimed: amount_claimed ? parseFloat(amount_claimed) : undefined,
       },
     });
     res.status(201).json(newClaim);
@@ -115,28 +115,20 @@ router.post("/", async (req, res) => {
 
 // PATCH (update) a claim
 router.patch("/", async (req, res) => {
-  const {
-    id,
-    user_id,
-    accident_id,
-    claim_number,
-    date_submitted,
-    status,
-    description,
-    amount_claimed,
-  } = req.body;
+  const { id, ...updateData } = req.body; // Destructure id and gather the rest
+  const data = { date_modification: new Date() }; // Set current date for modification
+
+  // Only add fields that are present in the request body
+  if (updateData.claim_number !== undefined)
+    data.claim_number = updateData.claim_number;
+  if (updateData.status !== undefined) data.status = updateData.status;
+  if (updateData.amount_claimed !== undefined)
+    data.amount_claimed = parseFloat(updateData.amount_claimed);
+
   try {
     const updatedClaim = await prisma.claim.update({
       where: { id: parseInt(id) },
-      data: {
-        user_id,
-        accident_id,
-        claim_number,
-        date_submitted,
-        status,
-        description,
-        amount_claimed,
-      },
+      data,
     });
     res.status(200).json(updatedClaim);
   } catch (error) {

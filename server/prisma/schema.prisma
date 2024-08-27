@@ -126,16 +126,17 @@ model ArchivedAccident {
 
 
 model Claim {
-  id             Int      @id @default(autoincrement())
-  user_id        Int      // Updated to refer to user
-  accident_id    Int
-  claim_number   String   @unique
-  date_submitted DateTime
-  status         String   // e.g., submitted, under review, approved, rejected
-  description    String
-  amount_claimed Float
-  user           User     @relation(fields: [user_id], references: [id]) // Updated
-  accident       Accident @relation(fields: [accident_id], references: [id])
+  id                Int      @id @default(autoincrement())
+  user_id           Int
+  accident_id       Int
+  claim_number      String?  @unique
+  date_submitted    DateTime
+  date_modification DateTime  @default(now()) // Set default to current date
+  status            String    @default("waiting")
+  description       String
+  amount_claimed    Float?
+  user              User      @relation(fields: [user_id], references: [id])
+  accident          Accident  @relation(fields: [accident_id], references: [id])
 
   @@map("claim")
 }

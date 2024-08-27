@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `claim` ADD COLUMN `date_modification` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3);

@@ -57,9 +57,9 @@ export default function Claim() {
           },
         }
       );
-      setClaims((prevClaims) => [response.data, ...prevClaims]);
       toast.success("Claim added successfully!");
       closeModal();
+      // windows.location.reload();
     } catch (error) {
       console.error("Error adding claim:", error);
       toast.error("Failed to add claim. Please try again.");
@@ -77,12 +77,9 @@ export default function Claim() {
           },
         }
       );
-      setClaims((prevClaims) =>
-        prevClaims.map((claim) =>
-          claim.id === updatedClaim.id ? response.data : claim
-        )
-      );
+
       toast.success("Claim updated successfully!");
+      window.location.reload(); // Reload the page after successful submission
     } catch (error) {
       console.error("Error updating claim:", error);
       toast.error("Failed to update claim. Please try again.");

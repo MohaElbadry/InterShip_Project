@@ -81,7 +81,9 @@ export default function ClaimDetailsModal({ claimId, onClose }) {
             </p>
             <p className="text-gray-600 mb-2">
               <span className="font-medium">Amount Claimed:</span> $
-              {claimDetails.amount_claimed.toFixed(2)}
+              {claimDetails.amount_claimed
+                ? claimDetails.amount_claimed.toFixed(2)
+                : "--:--"}
             </p>
             <p className="text-gray-600 mb-2">
               <span className="font-medium">Status:</span>

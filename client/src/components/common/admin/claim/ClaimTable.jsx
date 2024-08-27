@@ -7,7 +7,7 @@ export default function ClaimTable({ claims, onUpdateClaim }) {
 
   const filteredClaims = claims.filter(
     (claim) =>
-      claim.claim_number.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      claim.claim_number?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       claim.user.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 

@@ -59,7 +59,7 @@ export default function Profile({ userInfo }) {
     <>
       <section className="py-1 bg-blueGray-50">
         <div className="w-full lg:w-8/12 px-4 mx-auto mt-6">
-          <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg shadow-yellow-50 rounded-lg bg-blueGray-100 border-0">
+          <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg shadow-yellow-50 rounded-md bg-blueGray-300 border-2">
             <div className="rounded-t bg-white mb-0 px-6 py-6">
               <div className="text-center flex justify-between">
                 <h6 className="text-blueGray-700 text-3xl font-bold text-gray-700">
