@@ -4,8 +4,7 @@ import Logout from "../../pages/auth/Logout";
 
 export default function Menu() {
   const { auth } = useAuth();
-  console.log(auth);
-  console.log("hellpo");
+
   return (
     <div className="fixed w-full flex items-center justify-between h-14 text-white z-10">
       <div className="flex items-center justify-start md:justify-center pl-3 w-14 md:w-64 h-14 bg-blue-800 border-none">
