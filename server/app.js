@@ -13,6 +13,7 @@ var accidentVehicleRoutes = require("./routes/accidentVehicleRoutes");
 var claimRoutes = require("./routes/claimRoutes");
 var insurancePolicyRoutes = require("./routes/insurancePolicyRoutes");
 var vehicleRoutes = require("./routes/vehicleRoutes");
+var statisticsRoutes = require("./routes/statisticsRoutes");
 const authMiddleware = require("./middlewares/authMiddleware");
 
 var app = express();
@@ -36,6 +37,7 @@ app.use(cors());
 app.use("/", indexRouter);
 // Public and Private routes
 app.use("/user", usersRouter);
+app.use("/statistics", statisticsRoutes);
 // Private Routes Need auth
 app.use("/insurance", authMiddleware, insurancePolicyRoutes);
 app.use("/accident", authMiddleware, accidentRoutes);

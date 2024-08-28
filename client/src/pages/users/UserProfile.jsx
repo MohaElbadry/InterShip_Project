@@ -22,7 +22,6 @@ export default function UserProfile() {
           }
         );
         setUserInfo(response.data);
-        console.log(auth.token);
       } catch (error) {
         console.log(error);
       } finally {

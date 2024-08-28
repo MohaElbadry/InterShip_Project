@@ -4,9 +4,12 @@ import StatisticsCard from "./StatisticsCard";
 import Sidebar from "../../components/layout/Sidebar";
 import { useAuth } from "../../context/AuthContext";
 import axios from "axios";
+import WebsiteInfo from "../../components/common/user/WebsiteInfo"; // Import the new component
+
 export default function UserDashboard() {
   const { auth } = useAuth(); // Get the auth data from context
   const [latestVehicles, setLatestVehicles] = useState([]);
+  const [statistics, setStatistics] = useState([]);
   const [loading, setLoading] = useState(true); // Loading state
 
   useEffect(() => {
@@ -30,9 +33,27 @@ export default function UserDashboard() {
         setLoading(false); // Stop loading
       }
     };
-
+    const fetchUserStatistics = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_LINK}/statistics/user/${auth.user.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${auth.token}`,
+            },
+          }
+        );
+        setStatistics(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error fetching user statistics:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchVehicles();
-  }, []);
+    fetchUserStatistics();
+  }, [auth.token]);
   if (loading) return <p>Loading...</p>; // Display loading message while fetching
 
   return (
@@ -60,35 +81,12 @@ export default function UserDashboard() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth="2"
-                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                ></path>
-              </svg>
-            }
-            value="1,257"
-            label="Visitors"
-          />
-          <StatisticsCard
-            bgColor="blue-500"
-            borderColor="blue-600"
-            icon={
-              <svg
-                width="30"
-                height="30"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                className="stroke-current text-blue-800 dark:text-gray-800 transform transition-transform duration-500 ease-in-out"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
                   d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
                 ></path>
               </svg>
             }
-            value="557"
-            label="Orders"
+            value={statistics.userVehiclesCount}
+            label="Vehicles"
           />
           <StatisticsCard
             bgColor="blue-500"
@@ -110,8 +108,8 @@ export default function UserDashboard() {
                 ></path>
               </svg>
             }
-            value="$11,257"
-            label="Sales"
+            value={statistics.userAccidentsCount}
+            label="Accidents"
           />
           <StatisticsCard
             bgColor="blue-500"
@@ -133,10 +131,11 @@ export default function UserDashboard() {
                 ></path>
               </svg>
             }
-            value="$75,257"
-            label="Balances"
+            value={statistics.userClaimsCount}
+            label="Claims"
           />
         </div>
+        <WebsiteInfo /> {/* Include the WebsiteInfo component */}
       </div>
       {/* <!-- Statistics Cards --> */}
       <div className=" ml-14 mb-10 md:ml-64  overflow-hidden">

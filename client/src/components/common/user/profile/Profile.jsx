@@ -41,7 +41,6 @@ export default function Profile({ userInfo }) {
           },
         }
       );
-      console.log(response);
       closeModal();
       window.location.reload(); // Refresh the page after successful update
     } catch (error) {
