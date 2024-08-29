@@ -144,7 +144,7 @@ async function seed() {
             claim_number: faker.string.uuid(),
             date_submitted: faker.date.recent(),
             status: "submitted",
-            description: faker.lorem.paragraph(),
+            description: faker.lorem.sentence(),
             amount_claimed: parseFloat(faker.finance.amount()),
             user: {
               connect: { id: user.id },
