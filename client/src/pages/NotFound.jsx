@@ -1,26 +1,20 @@
-
 import React from "react";
-
+import img from "../assets/6.png";
 const NotFound = () => {
   return (
     <>
-      <section className="h-full w-full relative z-10 bg-[#1d1a1d] min-h-screen">
+      <section className="h-full w-full relative overflow-hidden z-10 bg-[#1d1a1d] min-h-screen">
         <div className="container mx-auto ">
-          <div className="-mx-4 flex">
+          <div className="-mx-4 flex  h-screen items-center">
             <div className="w-full px-4">
               <div className="mx-auto max-w-[400px] text-center">
-                <h2 className="mb-2 text-[50px] font-bold leading-none text-white sm:text-[80px] md:text-[100px]">
-                  404
-                </h2>
-                <h4 className="mb-3 text-[22px] font-semibold leading-tight text-white">
+                <h4 className="mb-3 text-[22px] font-semibold leading-tight text-[#c4f9d6]">
                   Oops! That page can’t be found
                 </h4>
-                <p className="mb-8 text-lg text-white">
-                  The page you are looking for it maybe deleted
-                </p>
+                <img src={img} alt="404" className="mx-auto scale-110 mb-2" />
                 <a
                   href="/"
-                  className="inline-block rounded-lg border border-white px-8 py-3 text-center text-base font-semibold text-white transition hover:bg-white hover:text-primary"
+                  className="inline-block rounded-lg border text-[#FFFFFF] border-black  px-8 py-3 text-center text-base font-semibold bg-[#a09b9b] transition hover:bg-white hover:text-primary"
                 >
                   Go To Home
                 </a>
@@ -43,4 +37,3 @@ const NotFound = () => {
 };
 
 export default NotFound;
-
