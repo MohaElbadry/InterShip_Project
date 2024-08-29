@@ -30,6 +30,7 @@ export default function LogIn() {
     }
   }, [auth, navigate]);
   const onSubmit = async (data) => {
+    console.log(`${process.env.REACT_APP_API_LINK}/login`);
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_API_LINK}/login`,
@@ -38,6 +39,7 @@ export default function LogIn() {
           password: data.password,
         }
       );
+      console.log(response);
       if (response.data.status) {
         setAuth({ token: response.data.token, user: response.data.user });
         localStorage.setItem("token", response.data.token);
@@ -129,3 +131,4 @@ export default function LogIn() {
     </>
   );
 }
+
