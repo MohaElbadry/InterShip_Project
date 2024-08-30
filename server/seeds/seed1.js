@@ -7,22 +7,17 @@ const prisma = new PrismaClient();
 async function seed() {
   try {
     // Create Users
-    const users = [];
-    for (let i = 0; i < 10; i++) {
-      users.push(
-        await prisma.User.create({
-          data: {
-            name: faker.person.fullName(),
-            email: faker.internet.email(),
-            password: await bcrypt.hash("12345678", 10),
-            role: "admin", // Can also be "admin"
-            address: faker.location.streetAddress(),
-            contact_number: faker.phone.number(),
-            date_of_birth: faker.date.birthdate(),
-          },
-        })
-      );
-    }
+    await prisma.User.create({
+      data: {
+        name: faker.person.fullName(),
+        email: "admin@admin.com",
+        password: await bcrypt.hash("12345678", 10),
+        role: "admin",
+        address: faker.location.streetAddress(),
+        contact_number: faker.phone.number(),
+        date_of_birth: faker.date.birthdate(),
+      },
+    });
 
     console.log("Seeding completed successfully!");
   } catch (error) {

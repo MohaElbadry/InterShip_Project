@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql" // Use your specific database provider
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -40,15 +40,15 @@ model ArchivedUser {
 
 model InsurancePolicy {
   id            Int      @id @default(autoincrement())
-  user_id       Int      // Updated to refer to user
+  user_id       Int
   vehicle_id    Int
-  policy_number String   @unique @default(cuid())
+  policy_number String   @unique @default(uuid()) // Changed to uuid() for PostgreSQL
   type          String
   start_date    DateTime
   end_date      DateTime
   amount        Float
   status        String   // e.g., active, expired, cancelled
-  user          User     @relation(fields: [user_id], references: [id]) // Updated
+  user          User     @relation(fields: [user_id], references: [id])
   vehicle       Vehicle  @relation(fields: [vehicle_id], references: [id])
 
   @@map("insurance_policy")
@@ -72,14 +72,14 @@ model ArchivedInsurancePolicy {
 
 model Vehicle {
   id                Int               @id @default(autoincrement())
-  user_id           Int               // Updated to refer to user
+  user_id           Int
   make              String
   model             String
   year              Int
   license_plate     String
   picture_url       String?           // New field for picture URL
   vin_number        String            @unique
-  user              User              @relation(fields: [user_id], references: [id]) // Updated
+  user              User              @relation(fields: [user_id], references: [id])
   insurancePolicies InsurancePolicy[]
   accidents         Accident[]        @relation("AccidentVehicle")
   AccidentVehicle   AccidentVehicle[]
@@ -96,9 +96,9 @@ model ArchivedVehicle {
   year              Int
   license_plate     String
   picture_url       String?           // New field for picture URL
-  vin_number        String            
+  vin_number        String
   deleted_at        DateTime          @default(now()) // Timestamp of when the vehicle was archived
-  
+
   @@map("archived_vehicle")
 }
 
