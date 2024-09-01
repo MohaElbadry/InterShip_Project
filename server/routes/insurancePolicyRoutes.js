@@ -32,6 +32,38 @@ router.get("/", async (req, res) => {
   }
 });
 
+// GET all users related to a specific user (e.g., users who are associated with a specific insurance policy)
+router.get("/user/:user_id", async (req, res) => {
+  const { user_id } = req.params;
+
+  try {
+    // Find the user to ensure they exist
+    const user = await prisma.user.findUnique({
+      where: { id: parseInt(user_id) },
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Retrieve related users based on your specific needs
+    // For example, get all users who have an insurance policy associated with the given user
+    const relatedUsers = await prisma.user.findMany({
+      where: {
+        insurancePolicies: {
+          some: {
+            user_id: parseInt(user_id),
+          },
+        },
+      },
+    });
+
+    res.status(200).json(relatedUsers);
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+});
+
 // GET insurance policy by ID
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
@@ -56,22 +88,6 @@ router.get("/:id", async (req, res) => {
           },
         },
       },
-    });
-    if (!policy) {
-      return res.status(404).json({ message: "Policy not found" });
-    }
-    res.status(200).json(policy);
-  } catch (error) {
-    res.status(500).send({ error: error.message });
-  }
-});
-
-// GET insurance policy by ID
-router.get("/:id", async (req, res) => {
-  const { id } = req.params;
-  try {
-    const policy = await prisma.insurancePolicy.findUnique({
-      where: { id: parseInt(id) },
     });
     if (!policy) {
       return res.status(404).json({ message: "Policy not found" });

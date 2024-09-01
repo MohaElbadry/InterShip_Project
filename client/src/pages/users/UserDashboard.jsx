@@ -44,7 +44,6 @@ export default function UserDashboard() {
           }
         );
         setStatistics(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error("Error fetching user statistics:", error);
       } finally {
