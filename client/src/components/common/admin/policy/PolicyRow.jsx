@@ -29,7 +29,7 @@ export default function PolicyRow({ policy, onStatusChange }) {
 
   return (
     <>
-      <tr className="bg-white border-b hover:bg-gray-50">
+      <tr className="bg-gray-800 hover:bg-gray-700 text-white">
         <td className="px-6 py-4">{policy.user.name}</td>
         <td className="px-6 py-4">{`${policy.vehicle.make} ${policy.vehicle.model}`}</td>
         <td className="px-6 py-4">{policy.type}</td>

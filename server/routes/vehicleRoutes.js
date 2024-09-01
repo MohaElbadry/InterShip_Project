@@ -143,6 +143,7 @@ router.patch("/:id", upload.single("picture"), async (req, res) => {
       res.status(400).json({
         error: "Unique constraint violation. Please check the VIN number ",
       });
+
     } else if (error.code === "P2025") {
       // Record not found
       res.status(404).json({ error: "Vehicle not found" });

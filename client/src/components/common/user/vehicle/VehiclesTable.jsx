@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import VehicleRow from "./VehicleRow"; // Import VehicleRow component
 import { useAuth } from "../../../../context/AuthContext";
+import axios from "axios";
+import toast from "react-hot-toast"; // Import react-hot-toast
 
 export default function VehiclesTable({ vehicles }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [vehicleIdToDelete, setVehicleIdToDelete] = useState(null);
   const { auth } = useAuth();
+
   const handleOpenModal = (id) => {
     setVehicleIdToDelete(id);
     setIsModalOpen(true);
@@ -20,24 +22,43 @@ export default function VehiclesTable({ vehicles }) {
   const handleConfirmDelete = async () => {
     if (vehicleIdToDelete !== null) {
       try {
-        const response = await fetch(
+        const response = await axios.delete(
           `${process.env.REACT_APP_API_LINK}/vehicles/${vehicleIdToDelete}`,
           {
-            method: "DELETE",
             headers: {
               Authorization: `Bearer ${auth.token}`,
             },
           }
         );
 
-        if (response.ok) {
+        if (response.status === 200) {
           handleCloseModal(); // Close the modal
+          toast.success("Vehicle deleted successfully!");
           location.reload();
+        } else if (response.status === 400) {
+          handleCloseModal(); // Close the modal
+          console.log("ana hna ");
         } else {
-          console.error("Failed to delete the vehicle");
+          toast.error("Failed to delete the vehicle");
         }
       } catch (error) {
-        console.error("Error deleting vehicle:", error);
+        if (error.response) {
+          switch (error.response.status) {
+            case 400:
+              toast.error(
+                "Vehicle cannot be deleted.\n It might be referenced in another table."
+              );
+              location.reload();
+              break;
+            case 404:
+              toast.error("Vehicle not found.");
+              break;
+            default:
+              toast.error("An error occurred while deleting the vehicle.");
+          }
+        } else {
+          toast.error("Network error.");
+        }
       }
     }
   };
@@ -88,6 +109,7 @@ export default function VehiclesTable({ vehicles }) {
           </div>
         </div>
       )}
+      {/* <Toaster /> Add Toaster component to render notifications */}
     </div>
   );
 }

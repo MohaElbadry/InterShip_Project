@@ -37,7 +37,6 @@ export default function Users() {
       );
       const reversedUsers = response.data.reverse();
       setUsers(reversedUsers);
-      console.log(response.data);
       if (response.data.length === 0) {
         setMessage("No users found.");
       } else {

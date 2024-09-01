@@ -30,7 +30,11 @@ export default function ClaimRow({ claim, onUpdateClaim }) {
   return (
     <>
       <tr className="bg-white border-b hover:bg-gray-50">
-        <td className="px-6 py-4">{claim.claim_number}</td>
+        {claim.claim_number ? (
+          <td className="px-6 py-4">{claim.claim_number}</td>
+        ) : (
+          <td className="px-6 py-4">--:--</td>
+        )}{" "}
         <td className="px-6 py-4">
           {claim.user && claim.user.name ? claim.user.name : "N/A"}
         </td>

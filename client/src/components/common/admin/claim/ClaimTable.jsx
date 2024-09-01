@@ -12,7 +12,7 @@ export default function ClaimTable({ claims, onUpdateClaim }) {
   );
 
   return (
-    <div className="m-4">
+    <div className="">
       <div className="mb-4 flex items-center">
         <div className="relative flex-grow">
           <input

@@ -3,12 +3,21 @@ import VehicleRow from "./VehicleRow";
 import { useAuth } from "../../../../context/AuthContext";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { FaSearch } from "react-icons/fa";
 
 export default function VehiclesTable({ vehicles }) {
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [vehicleIdToDelete, setVehicleIdToDelete] = useState(null);
   const { auth } = useAuth();
+  const [searchTerm, setSearchTerm] = useState("");
 
+  const filteredVehicles = vehicles.filter(
+    (vehicle) =>
+      vehicle.make?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      vehicle.license_plate?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      vehicle.vin_number?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      vehicle.model.toLowerCase().includes(searchTerm.toLowerCase())
+  );
   const handleOpenDeleteModal = (id) => {
     setVehicleIdToDelete(id);
     setDeleteModalOpen(true);
@@ -46,8 +55,20 @@ export default function VehiclesTable({ vehicles }) {
   };
 
   return (
-    <div className="mt-4 mx-4">
-      <div className="w-full overflow-hidden rounded-lg shadow-xs">
+    <div className="mt-4 mx-0 sm:mx-4">
+      <div className="mb-4 flex items-center">
+        <div className="relative flex-grow">
+          <input
+            type="text"
+            placeholder="Search claims..."
+            className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+        </div>
+      </div>
+      <div className="w-full overflow-x-auto">
         <div className="w-full overflow-x-auto">
           <table className="w-full">
             <thead>
@@ -60,7 +81,7 @@ export default function VehiclesTable({ vehicles }) {
               </tr>
             </thead>
             <tbody className="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-              {vehicles.map((vehicle) => (
+              {filteredVehicles.map((vehicle) => (
                 <VehicleRow
                   key={vehicle.id}
                   vehicle={vehicle}

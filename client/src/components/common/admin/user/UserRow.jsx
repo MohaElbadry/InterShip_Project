@@ -45,10 +45,7 @@ export default function UserRow({ user }) {
         )}
       {isUpdateModalOpen &&
         ReactDOM.createPortal(
-          <UserUpdateModal
-            user={user}
-            onClose={handleUpdateModalClose}
-          />,
+          <UserUpdateModal user={user} onClose={handleUpdateModalClose} />,
           document.body
         )}
     </>
