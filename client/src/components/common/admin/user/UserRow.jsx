@@ -16,7 +16,7 @@ export default function UserRow({ user }) {
 
   return (
     <>
-      <tr className="bg-white border-b hover:bg-gray-50">
+      <tr className="bg-white border-b  hover:bg-gray-50">
         <td className="px-6 py-4">{user.name}</td>
         <td className="px-6 py-4">{user.email}</td>
         <td className="px-6 py-4">{user.role}</td>

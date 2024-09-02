@@ -41,15 +41,33 @@ export default function VehiclesTable({ vehicles }) {
         );
 
         if (response.status === 200) {
+          handleCloseModal(); // Close the modal
           toast.success("Vehicle deleted successfully!");
-          setDeleteModalOpen(false); // Close modal on success
-          // Refresh the page or update the vehicle list here
-          window.location.reload(); // Refresh the page after deletion
+          location.reload();
+        } else if (response.status === 400) {
+          handleCloseModal(); // Close the modal
+          console.log("ana hna ");
         } else {
           toast.error("Failed to delete the vehicle");
         }
       } catch (error) {
-        toast.error("Error deleting vehicle: " + error.message);
+        if (error.response) {
+          switch (error.response.status) {
+            case 400:
+              toast.error(
+                "Vehicle cannot be deleted.\n It might be referenced in another table."
+              );
+              location.reload();
+              break;
+            case 404:
+              toast.error("Vehicle not found.");
+              break;
+            default:
+              toast.error("An error occurred while deleting the vehicle.");
+          }
+        } else {
+          toast.error("Network error.");
+        }
       }
     }
   };

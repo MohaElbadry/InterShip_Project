@@ -11,7 +11,7 @@ export default function AccidentTable({ accidents }) {
       accident.location.toLowerCase().includes(searchTerm.toLowerCase())
   );
   return (
-    <div className="rounded-lg mx-5 overflow-x-auto">
+    <div className="mx-0 first-letter:sm:mx-4 rounded-lg overflow-x-auto">
       <div className="mb-4 flex items-center">
         <div className="relative flex-grow">
           <input
@@ -24,7 +24,7 @@ export default function AccidentTable({ accidents }) {
           <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
         </div>
       </div>
-      <table className="min-w-full bg-white">
+      <table className="min-w-full bg-white sm:rounded-lg">
         <thead className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
           <tr>
             <th className="px-4 py-3">Date</th>

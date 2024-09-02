@@ -11,8 +11,8 @@ export default function ClaimUpdateModal({ claim, onClose, onUpdateClaim }) {
   } = useForm({
     defaultValues: {
       status: "op1", // Set default status to claim's status or "op1"
-      claim_number: claim.claim_number || "",
-      amount_claimed: claim.amount_claimed || "",
+      claim_number: claim.claim_number || null,
+      amount_claimed: claim.amount_claimed || NaN,
     },
   });
 
@@ -25,6 +25,7 @@ export default function ClaimUpdateModal({ claim, onClose, onUpdateClaim }) {
         ...data,
         amount_claimed: parseFloat(data.amount_claimed),
       };
+      console.log(updatedClaim);
       await onUpdateClaim(updatedClaim);
       onClose();
     } catch (error) {
@@ -157,3 +158,8 @@ export default function ClaimUpdateModal({ claim, onClose, onUpdateClaim }) {
     </div>
   );
 }
+
+// "
+// Invalid `prisma.claim.update()` invocation:
+
+// Unique constraint failed on the fields: (`claim_number`)"

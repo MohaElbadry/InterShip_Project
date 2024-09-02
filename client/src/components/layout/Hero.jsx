@@ -52,7 +52,7 @@ const Hero = () => {
                   <img
                     src={pic}
                     alt="hero"
-                    className="max-w-full scale-125 lg:ml-auto"
+                    className="max-w-full scale-110 lg:ml-auto"
                   />
                   <span className="absolute -bottom-16 -left-14  z-[-1]">
                     <svg

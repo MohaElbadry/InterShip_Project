@@ -62,7 +62,7 @@ export default function Users() {
   if (loading) return <p>Loading...</p>;
 
   return (
-    <div className="min-h-screen flex flex-col flex-auto flex-shrink-0 antialiased bg-gray-700 text-black">
+    <div className="min-h-screen flex flex-col flex-auto flex-shrink-0 antialiased bg-gray-700  text-black">
       <MenuDark />
       <SidebarDark />
       <div className="h-full ml-14 mt-14 mb-10 md:ml-64">
