@@ -34,7 +34,7 @@ export default function PolicyStatusChangeModal({
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+    <div className="fixed inset-0 z-10 flex items-center justify-center bg-gray-900 bg-opacity-50">
       <div className="bg-white p-8 rounded-lg shadow-xl max-w-md w-full">
         <div className="flex justify-between items-start mb-6">
           <h2 className="text-2xl font-bold text-gray-800">

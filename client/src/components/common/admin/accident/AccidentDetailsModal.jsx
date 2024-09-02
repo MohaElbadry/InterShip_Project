@@ -30,7 +30,7 @@ export default function AccidentDetailsModal({ accidentId, onClose }) {
 
   if (isLoading) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+      <div className="fixed z-10 inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
         <div className="bg-white p-6 rounded-lg shadow-lg">
           <p>Loading...</p>
         </div>
@@ -43,7 +43,7 @@ export default function AccidentDetailsModal({ accidentId, onClose }) {
   }
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+    <div className="fixed inset-0 z-10 flex items-center justify-center bg-gray-900 bg-opacity-50">
       <div className="bg-white p-6 rounded-lg shadow-xl max-w-lg w-full">
         <div className="flex justify-between items-start mb-4">
           <h2 className="text-2xl font-semibold text-gray-800">
