@@ -10,7 +10,7 @@ async function seed() {
     await prisma.User.create({
       data: {
         name: faker.person.fullName(),
-        email: "admin@admin.com",
+        email: "MO@MO.com",
         password: await bcrypt.hash("12345678", 10),
         role: "admin",
         address: faker.location.streetAddress(),

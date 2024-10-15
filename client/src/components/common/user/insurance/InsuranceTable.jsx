@@ -16,7 +16,7 @@ export default function InsuranceTable({ insurances }) {
         </thead>
         <tbody className="text-gray-600 text-sm font-light">
           {insurances.map((insurance) => (
-            <InsurancetRow key={insurance.id} insurance={insurance} />
+              <InsurancetRow key={insurance.vehicle.id} vehicle={insurance.vehicle} insurance={insurance} />
           ))}
         </tbody>
       </table>
